@@ -150,15 +150,17 @@ unsigned int WINAPI ServerThread(void* nListenPort)
 	char buff[] = "GGGG";
 	//char buff[32] = { 0 };
 	//sprintf(buff, "%dGGGG", dwPID);
-
 	boost::shared_ptr<GameFuncCallHandler> handler(new GameFuncCallHandler());
 	boost::shared_ptr<TProcessor> processor(new GameFuncCallProcessor(handler));
-
-	boost::shared_ptr<TServerTransport> serverTransport(new TPipeServer(buff));
-
-
+	boost::shared_ptr<TServerTransport> serverTransport(new TServerSocket(9992));
 	boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
 	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());
+
+	/*boost::shared_ptr<GameFuncCallHandler> handler(new GameFuncCallHandler());
+	boost::shared_ptr<TProcessor> processor(new GameFuncCallProcessor(handler));
+	boost::shared_ptr<TServerTransport> serverTransport(new TPipeServer(buff));
+	boost::shared_ptr<TTransportFactory> transportFactory(new TBufferedTransportFactory());
+	boost::shared_ptr<TProtocolFactory> protocolFactory(new TBinaryProtocolFactory());*/
 
 	TSimpleServer server(processor, serverTransport, transportFactory, protocolFactory);
 	pServer = &server;
