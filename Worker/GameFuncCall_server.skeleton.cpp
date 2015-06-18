@@ -61,8 +61,8 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   {
 	  // Your implementation goes here
 	 // printf("GetMonsterList\n");
-	  FGetRoundMonsterInfo();
-	  FGetRoundPlayerInfo();
+	  FGetRoundMonsterInfo(_return);
+	//  FGetRoundPlayerInfo();
   }
   void GetSkillInfo() 
   {

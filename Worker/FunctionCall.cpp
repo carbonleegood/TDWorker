@@ -48,7 +48,13 @@ void FGetPlayerInfo(PlayerInfo& player)
 		int nType = XCall::GetObjType(ObjID);
 		//BOOL bFriend = (BOOL)XCall::ObjectIsFriend(ObjID);
 		//BOOL bAttack = XCall::ObjectCanAttack(ObjID);
-
+		player.HP = nCurBlood;
+		player.Level = nLevel;
+		player.MaxHP = nMaxBlood;
+		player.MP = nCurForce;
+		player.MaxMP = nMaxForce;
+		player.X = objX;
+		player.Y = objY;
 		strTmp.Format(_T("角色地址:%X,属性地址:%X,血:%d/%d,定力:%d/%d,职业:%d,类型:%d,LV:%d,坐标:%f,%f,名字:%s\r\n"),
 			ObjAddr, proAddr, nCurBlood, nMaxBlood, nCurForce, nMaxForce, nJob, nType, nLevel, objX, objY, objName.c_str());
 		::OutputDebugString(strTmp);
@@ -58,7 +64,7 @@ void FGetPlayerInfo(PlayerInfo& player)
 
 //获取周围怪物
 void VisitMonList(DWORD CurList, CString &str);
-void FGetRoundMonsterInfo()
+void FGetRoundMonsterInfo(std::vector<MonsterInfo>& monsterList)
 {
 //	((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(_T(""));
 	CString str;
@@ -86,11 +92,11 @@ void FGetRoundMonsterInfo()
 			CurList = *(DWORD*)(CurList);
 			if (IsBadReadPtr((void*)CurList, 4))
 				continue;
-			VisitMonList(CurList, str);
+			VisitMonList(CurList, monsterList);
 		}
 	} while (0);
 }
-void VisitMonList(DWORD CurList, CString &str)
+void VisitMonList(DWORD CurList, std::vector<MonsterInfo>& monsterList)
 {
 	if (IsBadReadPtr((void*)CurList, 4))
 		return;
@@ -138,7 +144,14 @@ void VisitMonList(DWORD CurList, CString &str)
 		int nType = XCall::GetObjType(ObjID);
 		BOOL bFriend = (BOOL)XCall::ObjectIsFriend(ObjID);
 		BOOL bAttack = XCall::ObjectCanAttack(ObjID);
-
+		MonsterInfo	monster;
+		monster.HP = nCurBlood;
+		monster.x = objX;
+		monster.y = objY;
+		monster.level = nLevel;
+		monster.frd = bFriend;
+		monster.name = objName
+		monsterList.push_back(monster);
 		strTmp.Format(_T("地址:%X,属性地址:%X,友好:%d/%d,血:%d/%d,定力:%d/%d,职业:%d,类型:%d,LV:%d,坐标:%f,%f,名字:%s\r\n"),
 			ObjAddr, proAddr, bFriend, bAttack, nCurBlood, nMaxBlood, nCurForce, nMaxForce, nJob, nType, nLevel, objX, objY, objName.c_str());
 		::OutputDebugString(strTmp);

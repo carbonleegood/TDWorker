@@ -14,7 +14,7 @@ using namespace  ::thrift::GameCall;
 void FGetPlayerInfo(PlayerInfo& player);
 
 //获取周围NPC
-void FGetRoundMonsterInfo();
+void FGetRoundMonsterInfo(std::vector<MonsterInfo>& monsterList);
 
 //获取周围玩家列表
 void FGetRoundPlayerInfo();
