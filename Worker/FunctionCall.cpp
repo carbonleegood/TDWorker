@@ -239,6 +239,8 @@ void FGetSkillInfo()
 			if (nSlotType == 5)
 			{   //快捷键栏
 				DWORD skillID = *(DWORD*)(CurKeyAddr + KEY_SKILL_ID_OS);
+				if (skillID == 0)
+					break;
 				DWORD skillAddr1 = XCall::GetLearnedSkill3(skillID);
 				DWORD skillAddr2 = XCall::GetLearnedSkill2(skillID);
 				tstring skillName;
@@ -301,7 +303,8 @@ void FListLearnedSkill()   //已学技能
 		}
 
 		BOOL canRelease = 0;// (BOOL)XCall::CanReleaseSkill(skillID);
-
+		if (skillName.size() < 1)
+			continue;
 
 		CString strTmp;
 		strTmp.Format(_T("ListLearnedSkill地址:%X/%X,对像ID:%X,释放:%d,名字:%s\r\n"),
@@ -351,6 +354,67 @@ void FListBuffSkill() //辅助技能列表
 			break;
 	}
 //	((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+}
+void FGetKeySkill()  //快捷键技能
+{
+	//暂时测试有问题,0-14为12345qertg67890,其他无效,无法显示CTRL1-5,F1-5
+//	((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(_T(""));
+	CString str;
+	str = _T("快捷键,0-9为Ctrl+1 - 0,10-19为1-0,20-29为Q-Z \r\n");
+	OutputDebugString(str);
+//	str += strTmp;
+
+	DWORD GameAddr = *(DWORD*)(QSSLOT_MANAGER_BASE);
+	if (IsBadReadPtr((void*)GameAddr, 4))
+		return;
+	DWORD ListHead = *(DWORD*)(GameAddr + KEY_ARRARY_OS);
+	if (IsBadReadPtr((void*)ListHead, 4))
+		return;
+	DWORD ListEnd = *(DWORD*)(GameAddr + KEY_ARRARY_OS + 4);
+	if (IsBadReadPtr((void*)ListEnd, 4))
+		return;
+	if (ListHead >= ListEnd)  //没有成员,遍历个P
+		return;
+	int maxCount = (ListEnd - ListHead) / 0x4;
+	int nBegin = *(int*)(QSUI_SKILL_PANEL_BASE + 8);  //开始
+	int nSize = *(int*)(QSUI_SKILL_PANEL_BASE + 0xC);  //数量
+	for (int i = nBegin; i<maxCount; i++)
+	{
+		if ((nBegin + nSize) < i)  //超过此快捷键数组大小
+			break;
+		DWORD curList = ListHead + i * 0x4;
+		if (IsBadReadPtr((void*)curList, 4) || curList > ListEnd)
+			break;
+		DWORD CurKeyAddr = *(DWORD*)(curList);
+		if (IsBadReadPtr((void*)CurKeyAddr, 4))
+			continue;
+		DWORD skillID = *(DWORD*)(CurKeyAddr + KEY_SKILL_ID_OS);
+
+		DWORD skillAddr1 = XCall::GetLearnedSkill3(skillID);
+
+		DWORD skillAddr2 = XCall::GetLearnedSkill2(skillID);
+
+		tstring skillName;
+		if (skillAddr2)
+		{
+			char* putf8Name = (char*)*(DWORD*)(skillAddr2 + 4);
+			if (!IsBadReadPtr((void*)putf8Name, 4))
+			{
+				skillName = XCall::UTF2T(putf8Name);
+			}
+		}
+
+		BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
+
+
+		CString strTmp;
+		strTmp.Format(_T("序号:%d,key:%X,地址:%X,对像ID:%X,释放:%d,名字:%s\r\n"),
+			(i - nBegin), CurKeyAddr, skillAddr2, skillID, canRelease, skillName.c_str());
+		OutputDebugString(strTmp);
+	//	str += strTmp;
+	}
+
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
 }
 #pragma endregion comment
 

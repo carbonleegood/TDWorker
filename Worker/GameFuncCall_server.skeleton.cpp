@@ -61,14 +61,18 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   {
 	  // Your implementation goes here
 	 // printf("GetMonsterList\n");
-	  FGetRoundMonsterInfo(_return);
+	//  FGetRoundMonsterInfo(_return);
 	//  FGetRoundPlayerInfo();
+	  FListLearnedSkill();
   }
   void GetSkillInfo() 
   {
 	  // Your implementation goes here
 	 // printf("GetSkillInfo\n");
 	  FGetSkillInfo();
+	//  FListLearnedSkill();
+	//  FListBuffSkill();
+	//  FGetKeySkill();
   }
 #pragma endregion comment
 #pragma region ¿ØÖÆ
@@ -110,7 +114,8 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   {
 	  // Your implementation goes here//1ÊÇUP
 	  //printf("PressKey\n");
-	  XCall::PressGameKey(key, upordown);
+	  XCall::MoveSkillToKey(key, upordown);
+	//  XCall::PressGameKey(key, upordown);
 	  return 0;
   }
 
@@ -170,7 +175,7 @@ unsigned int WINAPI ServerThread(void* nListenPort)
 	//	SetEvent(hEvent);
 	//	CloseHandle(hEvent);
 	//}
-	Beep(1000, 500);
+	Beep(1000, 100);
 	server.serve();
 	Beep(500, 500);
 	::FreeLibraryAndExitThread(g_hDll, 0);

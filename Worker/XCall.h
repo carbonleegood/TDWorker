@@ -67,7 +67,7 @@ public:  //技能
 	static BOOL MoveSkillToKey(DWORD keyAddr,DWORD skillID);  //移动技能到快捷栏
 	//按键CALL
 	static BOOL ClickGameKey(DWORD nkey, int nCtrl/* = 0*/);
-	static BOOL PressKey(PSUPERKEYINFO pKeyInfo);//陈斌新增的那2个
+	static BOOL PressKey(PSUPERKEYINFO pKeyInfo);//陈斌新增的那2个,用于释放闪避轻功
 
 public:  //对像
 	static bool ObjectIsFriend(ULONG64 ulObjID);     //对像是否友好
