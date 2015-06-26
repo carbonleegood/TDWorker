@@ -12,7 +12,7 @@ using namespace  ::thrift::GameCall;
 /////////////////////////////////////////////////////////////////////////////////////
 //获取角色信息
 void FGetPlayerInfo(PlayerInfo& player);
-
+int FGetPlayerPos(PosInfo& pPos);
 //获取周围NPC
 void FGetRoundMonsterInfo(std::vector<MonsterInfo>& MonsterList);
 
@@ -21,8 +21,11 @@ void FGetRoundPlayerInfo();
 //获取采集物
 
 //获取技能列表
+int FGetSkillReleaseInfo(std::vector<int>& SkillList); //获取技能的可释放信息,25个,1-0,QERTG,CTRL1-5,F1-5
+int FGetLearnedSkill(std::vector<SkillInfo>& SkillList); //已学技能
+int FGetSlotSkill(std::vector<SlotSkillInfo>& SkillList); //面板技能，带按键槽地址,25个,1-0,QERTG,CTRL1-5,F1-5
+
 void FGetSkillInfo();
-void FListLearnedSkill();   //已学技能
 void FListBuffSkill();
 /////////////////////////////////////////////////////////////////////////////////////
 //功能部分

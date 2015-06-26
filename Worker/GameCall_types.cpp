@@ -470,4 +470,233 @@ void swap(MonsterInfo &a, MonsterInfo &b) {
   swap(a.__isset, b.__isset);
 }
 
+const char* SkillInfo::ascii_fingerprint = "98AF7D13251C890B477F86B8EA80D2E6";
+const uint8_t SkillInfo::binary_fingerprint[16] = {0x98,0xAF,0x7D,0x13,0x25,0x1C,0x89,0x0B,0x47,0x7F,0x86,0xB8,0xEA,0x80,0xD2,0xE6};
+
+uint32_t SkillInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->SkillID);
+          this->__isset.SkillID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->CanRelease);
+          this->__isset.CanRelease = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->name.clear();
+            uint32_t _size12;
+            ::apache::thrift::protocol::TType _etype15;
+            xfer += iprot->readListBegin(_etype15, _size12);
+            this->name.resize(_size12);
+            uint32_t _i16;
+            for (_i16 = 0; _i16 < _size12; ++_i16)
+            {
+              xfer += iprot->readByte(this->name[_i16]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t SkillInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("SkillInfo");
+
+  xfer += oprot->writeFieldBegin("SkillID", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->SkillID);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("CanRelease", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->CanRelease);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_LIST, 3);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_BYTE, static_cast<uint32_t>(this->name.size()));
+    std::vector<int8_t> ::const_iterator _iter17;
+    for (_iter17 = this->name.begin(); _iter17 != this->name.end(); ++_iter17)
+    {
+      xfer += oprot->writeByte((*_iter17));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(SkillInfo &a, SkillInfo &b) {
+  using ::std::swap;
+  swap(a.SkillID, b.SkillID);
+  swap(a.CanRelease, b.CanRelease);
+  swap(a.name, b.name);
+  swap(a.__isset, b.__isset);
+}
+
+const char* SlotSkillInfo::ascii_fingerprint = "DA28266E6B4ECC8AA1B5C61BED69AD00";
+const uint8_t SlotSkillInfo::binary_fingerprint[16] = {0xDA,0x28,0x26,0x6E,0x6B,0x4E,0xCC,0x8A,0xA1,0xB5,0xC6,0x1B,0xED,0x69,0xAD,0x00};
+
+uint32_t SlotSkillInfo::read(::apache::thrift::protocol::TProtocol* iprot) {
+
+  uint32_t xfer = 0;
+  std::string fname;
+  ::apache::thrift::protocol::TType ftype;
+  int16_t fid;
+
+  xfer += iprot->readStructBegin(fname);
+
+  using ::apache::thrift::protocol::TProtocolException;
+
+
+  while (true)
+  {
+    xfer += iprot->readFieldBegin(fname, ftype, fid);
+    if (ftype == ::apache::thrift::protocol::T_STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->SkillID);
+          this->__isset.SkillID = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 2:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->CanRelease);
+          this->__isset.CanRelease = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 3:
+        if (ftype == ::apache::thrift::protocol::T_I32) {
+          xfer += iprot->readI32(this->SlotAddr);
+          this->__isset.SlotAddr = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      case 4:
+        if (ftype == ::apache::thrift::protocol::T_LIST) {
+          {
+            this->name.clear();
+            uint32_t _size18;
+            ::apache::thrift::protocol::TType _etype21;
+            xfer += iprot->readListBegin(_etype21, _size18);
+            this->name.resize(_size18);
+            uint32_t _i22;
+            for (_i22 = 0; _i22 < _size18; ++_i22)
+            {
+              xfer += iprot->readByte(this->name[_i22]);
+            }
+            xfer += iprot->readListEnd();
+          }
+          this->__isset.name = true;
+        } else {
+          xfer += iprot->skip(ftype);
+        }
+        break;
+      default:
+        xfer += iprot->skip(ftype);
+        break;
+    }
+    xfer += iprot->readFieldEnd();
+  }
+
+  xfer += iprot->readStructEnd();
+
+  return xfer;
+}
+
+uint32_t SlotSkillInfo::write(::apache::thrift::protocol::TProtocol* oprot) const {
+  uint32_t xfer = 0;
+  xfer += oprot->writeStructBegin("SlotSkillInfo");
+
+  xfer += oprot->writeFieldBegin("SkillID", ::apache::thrift::protocol::T_I32, 1);
+  xfer += oprot->writeI32(this->SkillID);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("CanRelease", ::apache::thrift::protocol::T_I32, 2);
+  xfer += oprot->writeI32(this->CanRelease);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("SlotAddr", ::apache::thrift::protocol::T_I32, 3);
+  xfer += oprot->writeI32(this->SlotAddr);
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldBegin("name", ::apache::thrift::protocol::T_LIST, 4);
+  {
+    xfer += oprot->writeListBegin(::apache::thrift::protocol::T_BYTE, static_cast<uint32_t>(this->name.size()));
+    std::vector<int8_t> ::const_iterator _iter23;
+    for (_iter23 = this->name.begin(); _iter23 != this->name.end(); ++_iter23)
+    {
+      xfer += oprot->writeByte((*_iter23));
+    }
+    xfer += oprot->writeListEnd();
+  }
+  xfer += oprot->writeFieldEnd();
+
+  xfer += oprot->writeFieldStop();
+  xfer += oprot->writeStructEnd();
+  return xfer;
+}
+
+void swap(SlotSkillInfo &a, SlotSkillInfo &b) {
+  using ::std::swap;
+  swap(a.SkillID, b.SkillID);
+  swap(a.CanRelease, b.CanRelease);
+  swap(a.SlotAddr, b.SlotAddr);
+  swap(a.name, b.name);
+  swap(a.__isset, b.__isset);
+}
+
 }} // namespace

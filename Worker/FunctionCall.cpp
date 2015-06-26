@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "FunctionCall.h"
 #include "XCall.h"
-
+#define SUCCESS 0
+#define CALL_FAIL 1
+#define DEBUGVIEW
 #pragma region 更新获取数据
 //获取角色信息
 void FGetPlayerInfo(PlayerInfo& player)
@@ -65,7 +67,38 @@ void FGetPlayerInfo(PlayerInfo& player)
 			ObjAddr, proAddr, nCurBlood, nMaxBlood, nCurForce, nMaxForce, nJob, nType, nLevel, objX, objY, objName.c_str());
 		::OutputDebugString(strTmp);
 	} while (0);
+}
 
+int FGetPlayerPos(PosInfo& pPos)
+{
+	int nRet = CALL_FAIL;
+	//取角色地址
+	DWORD ObjAddr = XCall::GetRoleAddr();
+	do
+	{
+		if (IsBadReadPtr((void*)ObjAddr, 4))
+			break;
+	
+		ULONG64 ObjID = *(ULONG64*)(ObjAddr + OBJECT_ID_OS);
+		if (ObjID == 0 || ObjID == -1)
+			break;
+
+		//float objX = 0;
+		//float objY = 0;
+		DWORD objPosAddr = XCall::GetCollectItemPos(ObjAddr);
+		if (objPosAddr)
+		{
+			pPos.x = *(float*)objPosAddr;
+			pPos.y = *(float*)(objPosAddr + 4);
+		}
+#ifdef DEBUGVIEW
+		CString strTmp;
+		strTmp.Format(_T("角色坐标:%f,%f\r\n"),pPos.x, pPos.y);
+		::OutputDebugString(strTmp);
+#endif
+		nRet = SUCCESS;
+	} while (0);
+	return nRet;
 }
 
 //获取周围怪物
@@ -259,25 +292,80 @@ void FGetSkillInfo()
 		} while (0);
 	}
 }
-void FListLearnedSkill()   //已学技能
+int FGetSkillReleaseInfo(std::vector<int>& SkillList) //获取技能的可释放信息,25个,1-0,QERTG,CTRL1-5,F1-5
+{
+	DWORD GameAddr = *(DWORD*)(QSSLOT_MANAGER_BASE);
+	if (IsBadReadPtr((void*)GameAddr, 4))
+		return CALL_FAIL;
+	DWORD ListHead = *(DWORD*)(GameAddr + KEY_ARRARY_OS);
+	if (IsBadReadPtr((void*)ListHead, 4))
+		return CALL_FAIL;
+	DWORD ListEnd = *(DWORD*)(GameAddr + KEY_ARRARY_OS + 4);
+	if (IsBadReadPtr((void*)ListEnd, 4))
+		return CALL_FAIL;
+	if (ListHead >= ListEnd)  //没有成员,遍历个P
+		return CALL_FAIL;
+	int maxCount = (ListEnd - ListHead) / 4;
+	for (int i = 0; i<maxCount; i++)
+	{
+		DWORD curList = ListHead + i * 0x4;
+		if (IsBadReadPtr((void*)curList, 4) || curList > ListEnd)
+			break;
+		DWORD CurKeyAddr = *(DWORD*)(curList);
+		if (IsBadReadPtr((void*)CurKeyAddr, 4))
+			continue;
+		int nSlotType = *(int*)(CurKeyAddr + 8);   //容器类型
+		int nItemType = *(int*)(CurKeyAddr + 0xC);  //数据类型
+		do
+		{
+			if (nSlotType == 5)
+			{   //快捷键栏
+				DWORD skillID = *(DWORD*)(CurKeyAddr + KEY_SKILL_ID_OS);
+				DWORD skillAddr1 = XCall::GetLearnedSkill3(skillID);
+				DWORD skillAddr2 = XCall::GetLearnedSkill2(skillID);
+				tstring skillName;
+				if (skillAddr2)
+				{
+					char* putf8Name = (char*)*(DWORD*)(skillAddr2 + 4);
+					if (!IsBadReadPtr((void*)putf8Name, 4))
+					{
+						skillName = XCall::UTF2T(putf8Name);
+					}
+				}
+				BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
+				CString strTmp;
+				strTmp.Format(_T("快捷键:%d,key:%X,地址:%X,对像ID:%X,释放:%d,名字:%s\r\n"),
+					i, CurKeyAddr, skillAddr1, skillID, canRelease, skillName.c_str());
+				::OutputDebugString(strTmp);
+			}
+		} while (0);
+	}
+	return SUCCESS;
+}
+
+int FGetSlotSkill(std::vector<SlotSkillInfo>& SkillList) //面板技能，带按键槽地址,25个,1-0,QERTG,CTRL1-5,F1-5
+{
+	return SUCCESS;
+}
+int FGetLearnedSkill(std::vector<SkillInfo>& SkillList)  //已学技能
 {
 	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(_T(""));
 	CString str, strTmp;
 
 	DWORD GameAddr = *(DWORD*)(GAME_BASE);
 	if (IsBadReadPtr((void*)GameAddr, 4))
-		return;
+		return CALL_FAIL;
 	GameAddr = *(DWORD*)(GameAddr + LEARNED_SKILL_ID_LIST_OS);
 	if (IsBadReadPtr((void*)GameAddr, 4))
-		return;
+		return CALL_FAIL;
 	DWORD ListHead = *(DWORD*)(GameAddr + 0);
 	if (IsBadReadPtr((void*)ListHead, 4))
-		return;
+		return CALL_FAIL;
 	DWORD ListEnd = *(DWORD*)(GameAddr + 4);
 	if (IsBadReadPtr((void*)ListEnd, 4))
-		return;
+		return CALL_FAIL;
 	if (ListHead >= ListEnd)  //没有成员,遍历个P
-		return;
+		return CALL_FAIL;
 	int maxCount = (ListEnd - ListHead) / 0xC;
 	for (int i = 0; i<maxCount; i++)
 	{
@@ -301,15 +389,24 @@ void FListLearnedSkill()   //已学技能
 		}
 
 		BOOL canRelease = 0;// (BOOL)XCall::CanReleaseSkill(skillID);
-
-
+		SkillInfo temp;
+		char* pName = (char*)skillName.c_str();
+		int nLen = skillName.size() * 2;
+		for (int i = 0; i < nLen; ++i)
+			temp.name.push_back(*(pName + i));
+		temp.SkillID = skillID;
+		temp.CanRelease = canRelease;
+		SkillList.push_back(temp);
+#ifdef DEBUGVIEW
 		CString strTmp;
 		strTmp.Format(_T("ListLearnedSkill地址:%X/%X,对像ID:%X,释放:%d,名字:%s\r\n"),
 			skillAddr1, skillAddr2, skillID, canRelease, skillName.c_str());
 		::OutputDebugString(strTmp);
+#endif
 		//str += strTmp;
 	}
 	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+	return SUCCESS;
 }
 void FListBuffSkill() //辅助技能列表
 {
