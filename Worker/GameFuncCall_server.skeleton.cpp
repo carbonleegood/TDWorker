@@ -30,15 +30,45 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   {
     // Your initialization goes here
   }
+#pragma region ²âÊÔ
   int32_t Test(const int32_t p1, const double p2) 
   {
 	  // Your implementation goes here
 	//  printf("Test\n");
-	  pServer->stop();
+	 // pServer->stop();
 	
 	//  ::OutputDebugString(L"ggggggggggggggggggggggg");
 	  return 0;
   }
+  int32_t Test2(const int32_t p1, const int32_t p2) 
+  {
+	  // Your implementation goes here
+	  printf("Test2\n");
+	  return 0;
+  }
+ 
+  int32_t Test3(const double p1, const double p2)
+  {
+	  // Your implementation goes here
+	  printf("Test3\n");
+	  return 0;
+  }
+ 
+  int32_t Test4(const int32_t p1, const int32_t p2, const int32_t p3, const int32_t p4) 
+  {
+	  // Your implementation goes here
+	  printf("Test4\n");
+	  return 0;
+  }
+  
+  int32_t UnloadDll() 
+  {
+	  // Your implementation goes here
+	//  printf("UnloadDll\n");
+	  pServer->stop();
+	  return 0;
+  }
+#pragma endregion comment
 #pragma region µÇÂ½
   void EnterGame(const int32_t Index) 
   {
@@ -57,23 +87,46 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
 	  FGetPlayerInfo(_return);
 	//_return.Level = 10;
   }
+  void GetPlayerPos(PosInfo& _return)
+  {
+	  // Your implementation goes here
+	  printf("GetPlayerPos\n");
+  }
   void GetMonsterList(std::vector<MonsterInfo> & _return) 
   {
 	  // Your implementation goes here
 	 // printf("GetMonsterList\n");
-	//  FGetRoundMonsterInfo(_return);
+	  FGetRoundMonsterInfo(_return);
 	//  FGetRoundPlayerInfo();
-	  FListLearnedSkill();
   }
+  void GetSkillReleaseInfo(std::vector<int32_t> & _return) 
+  {
+	  // Your implementation goes here
+	  printf("GetSkillReleaseInfo\n");
+	  FGetSkillReleaseInfo(_return);
+  }
+
+  void GetLearnedSkillInfo(std::vector<SkillInfo> & _return) 
+  {
+	  // Your implementation goes here
+	  //printf("GetLearnedSkillInfo\n");
+	  FGetLearnedSkill(_return);
+  }
+
+  void GetSlotSkillInfo(std::vector<SlotSkillInfo> & _return) 
+  {
+	  // Your implementation goes here
+	 // printf("GetSlotSkillInfo\n");
+	  FGetSlotSkill(_return);
+  }
+
   void GetSkillInfo() 
   {
 	  // Your implementation goes here
-	 // printf("GetSkillInfo\n");
 	  FGetSkillInfo();
-	//  FListLearnedSkill();
-	//  FListBuffSkill();
-	//  FGetKeySkill();
+	  //printf("GetSkillInfo\n");
   }
+
 #pragma endregion comment
 #pragma region ¿ØÖÆ
   void ChangeAngle(const double angle)
@@ -103,19 +156,11 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
 	//  XCall::PressGameKey(0, key);
 	////  VK_LSHIFT;
  // }
-  //int32_t PressKey(const int32_t key)
-  //{
-	 // // Your implementation goes here
-	 //// printf("PressKey\n");
-	 // XCall::PressGameKey(0,key);
-	 // return 0;
-  //}
   int32_t PressKey(const int32_t key, const int32_t upordown)
   {
 	  // Your implementation goes here//1ÊÇUP
 	  //printf("PressKey\n");
-	  XCall::MoveSkillToKey(key, upordown);
-	//  XCall::PressGameKey(key, upordown);
+	  XCall::PressGameKey(key, upordown);
 	  return 0;
   }
 
@@ -124,6 +169,13 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
 	  // Your implementation goes here
 	 // printf("ClickKey\n");
 	  XCall::ClickGameKey(key, ctrl);
+	  return 0;
+  }
+  int32_t ClickSkillKey(const int32_t key) 
+  {
+	  // Your implementation goes here
+	//  printf("ClickSkillKey\n");
+	  XCall::PressSkillKey(key);
 	  return 0;
   }
 #pragma endregion comment
@@ -142,6 +194,13 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
 	 // printf("RightPressSlot\n");
 	  XCall::RightPressSlot(SlotAddr);
 	  return 0;
+  }
+  int32_t MoveSkillToSlot(const int32_t SkillID, const int32_t SlotAddr)
+  {
+	  // Your implementation goes here
+	//  printf("MoveSkillToSlot\n");
+	  return XCall::MoveSkillToKey(SlotAddr, SkillID);
+	//  return 0;
   }
 #pragma endregion comment
 };
@@ -175,7 +234,7 @@ unsigned int WINAPI ServerThread(void* nListenPort)
 	//	SetEvent(hEvent);
 	//	CloseHandle(hEvent);
 	//}
-	Beep(1000, 100);
+	Beep(1000, 500);
 	server.serve();
 	Beep(500, 500);
 	::FreeLibraryAndExitThread(g_hDll, 0);

@@ -290,6 +290,132 @@ class MonsterInfo {
 
 void swap(MonsterInfo &a, MonsterInfo &b);
 
+typedef struct _SkillInfo__isset {
+  _SkillInfo__isset() : SkillID(false), CanRelease(false), name(false) {}
+  bool SkillID;
+  bool CanRelease;
+  bool name;
+} _SkillInfo__isset;
+
+class SkillInfo {
+ public:
+
+  static const char* ascii_fingerprint; // = "98AF7D13251C890B477F86B8EA80D2E6";
+  static const uint8_t binary_fingerprint[16]; // = {0x98,0xAF,0x7D,0x13,0x25,0x1C,0x89,0x0B,0x47,0x7F,0x86,0xB8,0xEA,0x80,0xD2,0xE6};
+
+  SkillInfo() : SkillID(0), CanRelease(0) {
+  }
+
+  virtual ~SkillInfo() throw() {}
+
+  int32_t SkillID;
+  int32_t CanRelease;
+  std::vector<int8_t>  name;
+
+  _SkillInfo__isset __isset;
+
+  void __set_SkillID(const int32_t val) {
+    SkillID = val;
+  }
+
+  void __set_CanRelease(const int32_t val) {
+    CanRelease = val;
+  }
+
+  void __set_name(const std::vector<int8_t> & val) {
+    name = val;
+  }
+
+  bool operator == (const SkillInfo & rhs) const
+  {
+    if (!(SkillID == rhs.SkillID))
+      return false;
+    if (!(CanRelease == rhs.CanRelease))
+      return false;
+    if (!(name == rhs.name))
+      return false;
+    return true;
+  }
+  bool operator != (const SkillInfo &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const SkillInfo & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+void swap(SkillInfo &a, SkillInfo &b);
+
+typedef struct _SlotSkillInfo__isset {
+  _SlotSkillInfo__isset() : SkillID(false), CanRelease(false), SlotAddr(false), name(false) {}
+  bool SkillID;
+  bool CanRelease;
+  bool SlotAddr;
+  bool name;
+} _SlotSkillInfo__isset;
+
+class SlotSkillInfo {
+ public:
+
+  static const char* ascii_fingerprint; // = "DA28266E6B4ECC8AA1B5C61BED69AD00";
+  static const uint8_t binary_fingerprint[16]; // = {0xDA,0x28,0x26,0x6E,0x6B,0x4E,0xCC,0x8A,0xA1,0xB5,0xC6,0x1B,0xED,0x69,0xAD,0x00};
+
+  SlotSkillInfo() : SkillID(0), CanRelease(0), SlotAddr(0) {
+  }
+
+  virtual ~SlotSkillInfo() throw() {}
+
+  int32_t SkillID;
+  int32_t CanRelease;
+  int32_t SlotAddr;
+  std::vector<int8_t>  name;
+
+  _SlotSkillInfo__isset __isset;
+
+  void __set_SkillID(const int32_t val) {
+    SkillID = val;
+  }
+
+  void __set_CanRelease(const int32_t val) {
+    CanRelease = val;
+  }
+
+  void __set_SlotAddr(const int32_t val) {
+    SlotAddr = val;
+  }
+
+  void __set_name(const std::vector<int8_t> & val) {
+    name = val;
+  }
+
+  bool operator == (const SlotSkillInfo & rhs) const
+  {
+    if (!(SkillID == rhs.SkillID))
+      return false;
+    if (!(CanRelease == rhs.CanRelease))
+      return false;
+    if (!(SlotAddr == rhs.SlotAddr))
+      return false;
+    if (!(name == rhs.name))
+      return false;
+    return true;
+  }
+  bool operator != (const SlotSkillInfo &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const SlotSkillInfo & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+void swap(SlotSkillInfo &a, SlotSkillInfo &b);
+
 }} // namespace
 
 #endif

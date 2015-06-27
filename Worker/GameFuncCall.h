@@ -16,16 +16,26 @@ class GameFuncCallIf {
  public:
   virtual ~GameFuncCallIf() {}
   virtual int32_t Test(const int32_t p1, const double p2) = 0;
+  virtual int32_t Test2(const int32_t p1, const int32_t p2) = 0;
+  virtual int32_t Test3(const double p1, const double p2) = 0;
+  virtual int32_t Test4(const int32_t p1, const int32_t p2, const int32_t p3, const int32_t p4) = 0;
+  virtual int32_t UnloadDll() = 0;
   virtual void EnterGame(const int32_t Index) = 0;
   virtual void GetPlayerInfo(PlayerInfo& _return) = 0;
+  virtual void GetPlayerPos(PosInfo& _return) = 0;
   virtual void GetMonsterList(std::vector<MonsterInfo> & _return) = 0;
+  virtual void GetSkillReleaseInfo(std::vector<int32_t> & _return) = 0;
+  virtual void GetLearnedSkillInfo(std::vector<SkillInfo> & _return) = 0;
+  virtual void GetSlotSkillInfo(std::vector<SlotSkillInfo> & _return) = 0;
   virtual void GetSkillInfo() = 0;
   virtual void ChangeAngle(const double angle) = 0;
   virtual int32_t FindPath(const double x, const double y) = 0;
   virtual int32_t PressKey(const int32_t key, const int32_t upordown) = 0;
   virtual int32_t ClickKey(const int32_t key, const int32_t ctrl) = 0;
+  virtual int32_t ClickSkillKey(const int32_t key) = 0;
   virtual int32_t LeftPressSlot(const int32_t SlotAddr) = 0;
   virtual int32_t RightPressSlot(const int32_t SlotAddr) = 0;
+  virtual int32_t MoveSkillToSlot(const int32_t SkillID, const int32_t SlotAddr) = 0;
 };
 
 class GameFuncCallIfFactory {
@@ -59,13 +69,41 @@ class GameFuncCallNull : virtual public GameFuncCallIf {
     int32_t _return = 0;
     return _return;
   }
+  int32_t Test2(const int32_t /* p1 */, const int32_t /* p2 */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t Test3(const double /* p1 */, const double /* p2 */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t Test4(const int32_t /* p1 */, const int32_t /* p2 */, const int32_t /* p3 */, const int32_t /* p4 */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t UnloadDll() {
+    int32_t _return = 0;
+    return _return;
+  }
   void EnterGame(const int32_t /* Index */) {
     return;
   }
   void GetPlayerInfo(PlayerInfo& /* _return */) {
     return;
   }
+  void GetPlayerPos(PosInfo& /* _return */) {
+    return;
+  }
   void GetMonsterList(std::vector<MonsterInfo> & /* _return */) {
+    return;
+  }
+  void GetSkillReleaseInfo(std::vector<int32_t> & /* _return */) {
+    return;
+  }
+  void GetLearnedSkillInfo(std::vector<SkillInfo> & /* _return */) {
+    return;
+  }
+  void GetSlotSkillInfo(std::vector<SlotSkillInfo> & /* _return */) {
     return;
   }
   void GetSkillInfo() {
@@ -86,11 +124,19 @@ class GameFuncCallNull : virtual public GameFuncCallIf {
     int32_t _return = 0;
     return _return;
   }
+  int32_t ClickSkillKey(const int32_t /* key */) {
+    int32_t _return = 0;
+    return _return;
+  }
   int32_t LeftPressSlot(const int32_t /* SlotAddr */) {
     int32_t _return = 0;
     return _return;
   }
   int32_t RightPressSlot(const int32_t /* SlotAddr */) {
+    int32_t _return = 0;
+    return _return;
+  }
+  int32_t MoveSkillToSlot(const int32_t /* SkillID */, const int32_t /* SlotAddr */) {
     int32_t _return = 0;
     return _return;
   }
@@ -208,6 +254,469 @@ class GameFuncCall_Test_presult {
   int32_t* success;
 
   _GameFuncCall_Test_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _GameFuncCall_Test2_args__isset {
+  _GameFuncCall_Test2_args__isset() : p1(false), p2(false) {}
+  bool p1;
+  bool p2;
+} _GameFuncCall_Test2_args__isset;
+
+class GameFuncCall_Test2_args {
+ public:
+
+  GameFuncCall_Test2_args() : p1(0), p2(0) {
+  }
+
+  virtual ~GameFuncCall_Test2_args() throw() {}
+
+  int32_t p1;
+  int32_t p2;
+
+  _GameFuncCall_Test2_args__isset __isset;
+
+  void __set_p1(const int32_t val) {
+    p1 = val;
+  }
+
+  void __set_p2(const int32_t val) {
+    p2 = val;
+  }
+
+  bool operator == (const GameFuncCall_Test2_args & rhs) const
+  {
+    if (!(p1 == rhs.p1))
+      return false;
+    if (!(p2 == rhs.p2))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test2_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test2_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_Test2_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_Test2_pargs() throw() {}
+
+  const int32_t* p1;
+  const int32_t* p2;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test2_result__isset {
+  _GameFuncCall_Test2_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test2_result__isset;
+
+class GameFuncCall_Test2_result {
+ public:
+
+  GameFuncCall_Test2_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_Test2_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_Test2_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_Test2_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test2_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test2_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test2_presult__isset {
+  _GameFuncCall_Test2_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test2_presult__isset;
+
+class GameFuncCall_Test2_presult {
+ public:
+
+
+  virtual ~GameFuncCall_Test2_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_Test2_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _GameFuncCall_Test3_args__isset {
+  _GameFuncCall_Test3_args__isset() : p1(false), p2(false) {}
+  bool p1;
+  bool p2;
+} _GameFuncCall_Test3_args__isset;
+
+class GameFuncCall_Test3_args {
+ public:
+
+  GameFuncCall_Test3_args() : p1(0), p2(0) {
+  }
+
+  virtual ~GameFuncCall_Test3_args() throw() {}
+
+  double p1;
+  double p2;
+
+  _GameFuncCall_Test3_args__isset __isset;
+
+  void __set_p1(const double val) {
+    p1 = val;
+  }
+
+  void __set_p2(const double val) {
+    p2 = val;
+  }
+
+  bool operator == (const GameFuncCall_Test3_args & rhs) const
+  {
+    if (!(p1 == rhs.p1))
+      return false;
+    if (!(p2 == rhs.p2))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test3_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test3_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_Test3_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_Test3_pargs() throw() {}
+
+  const double* p1;
+  const double* p2;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test3_result__isset {
+  _GameFuncCall_Test3_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test3_result__isset;
+
+class GameFuncCall_Test3_result {
+ public:
+
+  GameFuncCall_Test3_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_Test3_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_Test3_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_Test3_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test3_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test3_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test3_presult__isset {
+  _GameFuncCall_Test3_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test3_presult__isset;
+
+class GameFuncCall_Test3_presult {
+ public:
+
+
+  virtual ~GameFuncCall_Test3_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_Test3_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+typedef struct _GameFuncCall_Test4_args__isset {
+  _GameFuncCall_Test4_args__isset() : p1(false), p2(false), p3(false), p4(false) {}
+  bool p1;
+  bool p2;
+  bool p3;
+  bool p4;
+} _GameFuncCall_Test4_args__isset;
+
+class GameFuncCall_Test4_args {
+ public:
+
+  GameFuncCall_Test4_args() : p1(0), p2(0), p3(0), p4(0) {
+  }
+
+  virtual ~GameFuncCall_Test4_args() throw() {}
+
+  int32_t p1;
+  int32_t p2;
+  int32_t p3;
+  int32_t p4;
+
+  _GameFuncCall_Test4_args__isset __isset;
+
+  void __set_p1(const int32_t val) {
+    p1 = val;
+  }
+
+  void __set_p2(const int32_t val) {
+    p2 = val;
+  }
+
+  void __set_p3(const int32_t val) {
+    p3 = val;
+  }
+
+  void __set_p4(const int32_t val) {
+    p4 = val;
+  }
+
+  bool operator == (const GameFuncCall_Test4_args & rhs) const
+  {
+    if (!(p1 == rhs.p1))
+      return false;
+    if (!(p2 == rhs.p2))
+      return false;
+    if (!(p3 == rhs.p3))
+      return false;
+    if (!(p4 == rhs.p4))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test4_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test4_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_Test4_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_Test4_pargs() throw() {}
+
+  const int32_t* p1;
+  const int32_t* p2;
+  const int32_t* p3;
+  const int32_t* p4;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test4_result__isset {
+  _GameFuncCall_Test4_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test4_result__isset;
+
+class GameFuncCall_Test4_result {
+ public:
+
+  GameFuncCall_Test4_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_Test4_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_Test4_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_Test4_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_Test4_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_Test4_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_Test4_presult__isset {
+  _GameFuncCall_Test4_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_Test4_presult__isset;
+
+class GameFuncCall_Test4_presult {
+ public:
+
+
+  virtual ~GameFuncCall_Test4_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_Test4_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
+class GameFuncCall_UnloadDll_args {
+ public:
+
+  GameFuncCall_UnloadDll_args() {
+  }
+
+  virtual ~GameFuncCall_UnloadDll_args() throw() {}
+
+
+  bool operator == (const GameFuncCall_UnloadDll_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const GameFuncCall_UnloadDll_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_UnloadDll_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_UnloadDll_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_UnloadDll_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_UnloadDll_result__isset {
+  _GameFuncCall_UnloadDll_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_UnloadDll_result__isset;
+
+class GameFuncCall_UnloadDll_result {
+ public:
+
+  GameFuncCall_UnloadDll_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_UnloadDll_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_UnloadDll_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_UnloadDll_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_UnloadDll_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_UnloadDll_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_UnloadDll_presult__isset {
+  _GameFuncCall_UnloadDll_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_UnloadDll_presult__isset;
+
+class GameFuncCall_UnloadDll_presult {
+ public:
+
+
+  virtual ~GameFuncCall_UnloadDll_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_UnloadDll_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -396,6 +905,100 @@ class GameFuncCall_GetPlayerInfo_presult {
 };
 
 
+class GameFuncCall_GetPlayerPos_args {
+ public:
+
+  GameFuncCall_GetPlayerPos_args() {
+  }
+
+  virtual ~GameFuncCall_GetPlayerPos_args() throw() {}
+
+
+  bool operator == (const GameFuncCall_GetPlayerPos_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetPlayerPos_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetPlayerPos_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_GetPlayerPos_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_GetPlayerPos_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetPlayerPos_result__isset {
+  _GameFuncCall_GetPlayerPos_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetPlayerPos_result__isset;
+
+class GameFuncCall_GetPlayerPos_result {
+ public:
+
+  GameFuncCall_GetPlayerPos_result() {
+  }
+
+  virtual ~GameFuncCall_GetPlayerPos_result() throw() {}
+
+  PosInfo success;
+
+  _GameFuncCall_GetPlayerPos_result__isset __isset;
+
+  void __set_success(const PosInfo& val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_GetPlayerPos_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetPlayerPos_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetPlayerPos_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetPlayerPos_presult__isset {
+  _GameFuncCall_GetPlayerPos_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetPlayerPos_presult__isset;
+
+class GameFuncCall_GetPlayerPos_presult {
+ public:
+
+
+  virtual ~GameFuncCall_GetPlayerPos_presult() throw() {}
+
+  PosInfo* success;
+
+  _GameFuncCall_GetPlayerPos_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
 class GameFuncCall_GetMonsterList_args {
  public:
 
@@ -484,6 +1087,288 @@ class GameFuncCall_GetMonsterList_presult {
   std::vector<MonsterInfo> * success;
 
   _GameFuncCall_GetMonsterList_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
+class GameFuncCall_GetSkillReleaseInfo_args {
+ public:
+
+  GameFuncCall_GetSkillReleaseInfo_args() {
+  }
+
+  virtual ~GameFuncCall_GetSkillReleaseInfo_args() throw() {}
+
+
+  bool operator == (const GameFuncCall_GetSkillReleaseInfo_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetSkillReleaseInfo_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetSkillReleaseInfo_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_GetSkillReleaseInfo_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_GetSkillReleaseInfo_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetSkillReleaseInfo_result__isset {
+  _GameFuncCall_GetSkillReleaseInfo_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetSkillReleaseInfo_result__isset;
+
+class GameFuncCall_GetSkillReleaseInfo_result {
+ public:
+
+  GameFuncCall_GetSkillReleaseInfo_result() {
+  }
+
+  virtual ~GameFuncCall_GetSkillReleaseInfo_result() throw() {}
+
+  std::vector<int32_t>  success;
+
+  _GameFuncCall_GetSkillReleaseInfo_result__isset __isset;
+
+  void __set_success(const std::vector<int32_t> & val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_GetSkillReleaseInfo_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetSkillReleaseInfo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetSkillReleaseInfo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetSkillReleaseInfo_presult__isset {
+  _GameFuncCall_GetSkillReleaseInfo_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetSkillReleaseInfo_presult__isset;
+
+class GameFuncCall_GetSkillReleaseInfo_presult {
+ public:
+
+
+  virtual ~GameFuncCall_GetSkillReleaseInfo_presult() throw() {}
+
+  std::vector<int32_t> * success;
+
+  _GameFuncCall_GetSkillReleaseInfo_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
+class GameFuncCall_GetLearnedSkillInfo_args {
+ public:
+
+  GameFuncCall_GetLearnedSkillInfo_args() {
+  }
+
+  virtual ~GameFuncCall_GetLearnedSkillInfo_args() throw() {}
+
+
+  bool operator == (const GameFuncCall_GetLearnedSkillInfo_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetLearnedSkillInfo_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetLearnedSkillInfo_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_GetLearnedSkillInfo_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_GetLearnedSkillInfo_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetLearnedSkillInfo_result__isset {
+  _GameFuncCall_GetLearnedSkillInfo_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetLearnedSkillInfo_result__isset;
+
+class GameFuncCall_GetLearnedSkillInfo_result {
+ public:
+
+  GameFuncCall_GetLearnedSkillInfo_result() {
+  }
+
+  virtual ~GameFuncCall_GetLearnedSkillInfo_result() throw() {}
+
+  std::vector<SkillInfo>  success;
+
+  _GameFuncCall_GetLearnedSkillInfo_result__isset __isset;
+
+  void __set_success(const std::vector<SkillInfo> & val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_GetLearnedSkillInfo_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetLearnedSkillInfo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetLearnedSkillInfo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetLearnedSkillInfo_presult__isset {
+  _GameFuncCall_GetLearnedSkillInfo_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetLearnedSkillInfo_presult__isset;
+
+class GameFuncCall_GetLearnedSkillInfo_presult {
+ public:
+
+
+  virtual ~GameFuncCall_GetLearnedSkillInfo_presult() throw() {}
+
+  std::vector<SkillInfo> * success;
+
+  _GameFuncCall_GetLearnedSkillInfo_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
+
+class GameFuncCall_GetSlotSkillInfo_args {
+ public:
+
+  GameFuncCall_GetSlotSkillInfo_args() {
+  }
+
+  virtual ~GameFuncCall_GetSlotSkillInfo_args() throw() {}
+
+
+  bool operator == (const GameFuncCall_GetSlotSkillInfo_args & /* rhs */) const
+  {
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetSlotSkillInfo_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetSlotSkillInfo_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_GetSlotSkillInfo_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_GetSlotSkillInfo_pargs() throw() {}
+
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetSlotSkillInfo_result__isset {
+  _GameFuncCall_GetSlotSkillInfo_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetSlotSkillInfo_result__isset;
+
+class GameFuncCall_GetSlotSkillInfo_result {
+ public:
+
+  GameFuncCall_GetSlotSkillInfo_result() {
+  }
+
+  virtual ~GameFuncCall_GetSlotSkillInfo_result() throw() {}
+
+  std::vector<SlotSkillInfo>  success;
+
+  _GameFuncCall_GetSlotSkillInfo_result__isset __isset;
+
+  void __set_success(const std::vector<SlotSkillInfo> & val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_GetSlotSkillInfo_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_GetSlotSkillInfo_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_GetSlotSkillInfo_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_GetSlotSkillInfo_presult__isset {
+  _GameFuncCall_GetSlotSkillInfo_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_GetSlotSkillInfo_presult__isset;
+
+class GameFuncCall_GetSlotSkillInfo_presult {
+ public:
+
+
+  virtual ~GameFuncCall_GetSlotSkillInfo_presult() throw() {}
+
+  std::vector<SlotSkillInfo> * success;
+
+  _GameFuncCall_GetSlotSkillInfo_presult__isset __isset;
 
   uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
 
@@ -1002,6 +1887,114 @@ class GameFuncCall_ClickKey_presult {
 
 };
 
+typedef struct _GameFuncCall_ClickSkillKey_args__isset {
+  _GameFuncCall_ClickSkillKey_args__isset() : key(false) {}
+  bool key;
+} _GameFuncCall_ClickSkillKey_args__isset;
+
+class GameFuncCall_ClickSkillKey_args {
+ public:
+
+  GameFuncCall_ClickSkillKey_args() : key(0) {
+  }
+
+  virtual ~GameFuncCall_ClickSkillKey_args() throw() {}
+
+  int32_t key;
+
+  _GameFuncCall_ClickSkillKey_args__isset __isset;
+
+  void __set_key(const int32_t val) {
+    key = val;
+  }
+
+  bool operator == (const GameFuncCall_ClickSkillKey_args & rhs) const
+  {
+    if (!(key == rhs.key))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_ClickSkillKey_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_ClickSkillKey_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_ClickSkillKey_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_ClickSkillKey_pargs() throw() {}
+
+  const int32_t* key;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_ClickSkillKey_result__isset {
+  _GameFuncCall_ClickSkillKey_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_ClickSkillKey_result__isset;
+
+class GameFuncCall_ClickSkillKey_result {
+ public:
+
+  GameFuncCall_ClickSkillKey_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_ClickSkillKey_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_ClickSkillKey_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_ClickSkillKey_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_ClickSkillKey_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_ClickSkillKey_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_ClickSkillKey_presult__isset {
+  _GameFuncCall_ClickSkillKey_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_ClickSkillKey_presult__isset;
+
+class GameFuncCall_ClickSkillKey_presult {
+ public:
+
+
+  virtual ~GameFuncCall_ClickSkillKey_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_ClickSkillKey_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 typedef struct _GameFuncCall_LeftPressSlot_args__isset {
   _GameFuncCall_LeftPressSlot_args__isset() : SlotAddr(false) {}
   bool SlotAddr;
@@ -1218,6 +2211,123 @@ class GameFuncCall_RightPressSlot_presult {
 
 };
 
+typedef struct _GameFuncCall_MoveSkillToSlot_args__isset {
+  _GameFuncCall_MoveSkillToSlot_args__isset() : SkillID(false), SlotAddr(false) {}
+  bool SkillID;
+  bool SlotAddr;
+} _GameFuncCall_MoveSkillToSlot_args__isset;
+
+class GameFuncCall_MoveSkillToSlot_args {
+ public:
+
+  GameFuncCall_MoveSkillToSlot_args() : SkillID(0), SlotAddr(0) {
+  }
+
+  virtual ~GameFuncCall_MoveSkillToSlot_args() throw() {}
+
+  int32_t SkillID;
+  int32_t SlotAddr;
+
+  _GameFuncCall_MoveSkillToSlot_args__isset __isset;
+
+  void __set_SkillID(const int32_t val) {
+    SkillID = val;
+  }
+
+  void __set_SlotAddr(const int32_t val) {
+    SlotAddr = val;
+  }
+
+  bool operator == (const GameFuncCall_MoveSkillToSlot_args & rhs) const
+  {
+    if (!(SkillID == rhs.SkillID))
+      return false;
+    if (!(SlotAddr == rhs.SlotAddr))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_MoveSkillToSlot_args &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_MoveSkillToSlot_args & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+
+class GameFuncCall_MoveSkillToSlot_pargs {
+ public:
+
+
+  virtual ~GameFuncCall_MoveSkillToSlot_pargs() throw() {}
+
+  const int32_t* SkillID;
+  const int32_t* SlotAddr;
+
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_MoveSkillToSlot_result__isset {
+  _GameFuncCall_MoveSkillToSlot_result__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_MoveSkillToSlot_result__isset;
+
+class GameFuncCall_MoveSkillToSlot_result {
+ public:
+
+  GameFuncCall_MoveSkillToSlot_result() : success(0) {
+  }
+
+  virtual ~GameFuncCall_MoveSkillToSlot_result() throw() {}
+
+  int32_t success;
+
+  _GameFuncCall_MoveSkillToSlot_result__isset __isset;
+
+  void __set_success(const int32_t val) {
+    success = val;
+  }
+
+  bool operator == (const GameFuncCall_MoveSkillToSlot_result & rhs) const
+  {
+    if (!(success == rhs.success))
+      return false;
+    return true;
+  }
+  bool operator != (const GameFuncCall_MoveSkillToSlot_result &rhs) const {
+    return !(*this == rhs);
+  }
+
+  bool operator < (const GameFuncCall_MoveSkillToSlot_result & ) const;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+  uint32_t write(::apache::thrift::protocol::TProtocol* oprot) const;
+
+};
+
+typedef struct _GameFuncCall_MoveSkillToSlot_presult__isset {
+  _GameFuncCall_MoveSkillToSlot_presult__isset() : success(false) {}
+  bool success;
+} _GameFuncCall_MoveSkillToSlot_presult__isset;
+
+class GameFuncCall_MoveSkillToSlot_presult {
+ public:
+
+
+  virtual ~GameFuncCall_MoveSkillToSlot_presult() throw() {}
+
+  int32_t* success;
+
+  _GameFuncCall_MoveSkillToSlot_presult__isset __isset;
+
+  uint32_t read(::apache::thrift::protocol::TProtocol* iprot);
+
+};
+
 class GameFuncCallClient : virtual public GameFuncCallIf {
  public:
   GameFuncCallClient(boost::shared_ptr< ::apache::thrift::protocol::TProtocol> prot) :
@@ -1241,15 +2351,39 @@ class GameFuncCallClient : virtual public GameFuncCallIf {
   int32_t Test(const int32_t p1, const double p2);
   void send_Test(const int32_t p1, const double p2);
   int32_t recv_Test();
+  int32_t Test2(const int32_t p1, const int32_t p2);
+  void send_Test2(const int32_t p1, const int32_t p2);
+  int32_t recv_Test2();
+  int32_t Test3(const double p1, const double p2);
+  void send_Test3(const double p1, const double p2);
+  int32_t recv_Test3();
+  int32_t Test4(const int32_t p1, const int32_t p2, const int32_t p3, const int32_t p4);
+  void send_Test4(const int32_t p1, const int32_t p2, const int32_t p3, const int32_t p4);
+  int32_t recv_Test4();
+  int32_t UnloadDll();
+  void send_UnloadDll();
+  int32_t recv_UnloadDll();
   void EnterGame(const int32_t Index);
   void send_EnterGame(const int32_t Index);
   void recv_EnterGame();
   void GetPlayerInfo(PlayerInfo& _return);
   void send_GetPlayerInfo();
   void recv_GetPlayerInfo(PlayerInfo& _return);
+  void GetPlayerPos(PosInfo& _return);
+  void send_GetPlayerPos();
+  void recv_GetPlayerPos(PosInfo& _return);
   void GetMonsterList(std::vector<MonsterInfo> & _return);
   void send_GetMonsterList();
   void recv_GetMonsterList(std::vector<MonsterInfo> & _return);
+  void GetSkillReleaseInfo(std::vector<int32_t> & _return);
+  void send_GetSkillReleaseInfo();
+  void recv_GetSkillReleaseInfo(std::vector<int32_t> & _return);
+  void GetLearnedSkillInfo(std::vector<SkillInfo> & _return);
+  void send_GetLearnedSkillInfo();
+  void recv_GetLearnedSkillInfo(std::vector<SkillInfo> & _return);
+  void GetSlotSkillInfo(std::vector<SlotSkillInfo> & _return);
+  void send_GetSlotSkillInfo();
+  void recv_GetSlotSkillInfo(std::vector<SlotSkillInfo> & _return);
   void GetSkillInfo();
   void send_GetSkillInfo();
   void recv_GetSkillInfo();
@@ -1265,12 +2399,18 @@ class GameFuncCallClient : virtual public GameFuncCallIf {
   int32_t ClickKey(const int32_t key, const int32_t ctrl);
   void send_ClickKey(const int32_t key, const int32_t ctrl);
   int32_t recv_ClickKey();
+  int32_t ClickSkillKey(const int32_t key);
+  void send_ClickSkillKey(const int32_t key);
+  int32_t recv_ClickSkillKey();
   int32_t LeftPressSlot(const int32_t SlotAddr);
   void send_LeftPressSlot(const int32_t SlotAddr);
   int32_t recv_LeftPressSlot();
   int32_t RightPressSlot(const int32_t SlotAddr);
   void send_RightPressSlot(const int32_t SlotAddr);
   int32_t recv_RightPressSlot();
+  int32_t MoveSkillToSlot(const int32_t SkillID, const int32_t SlotAddr);
+  void send_MoveSkillToSlot(const int32_t SkillID, const int32_t SlotAddr);
+  int32_t recv_MoveSkillToSlot();
  protected:
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> piprot_;
   boost::shared_ptr< ::apache::thrift::protocol::TProtocol> poprot_;
@@ -1287,30 +2427,50 @@ class GameFuncCallProcessor : public ::apache::thrift::TDispatchProcessor {
   typedef std::map<std::string, ProcessFunction> ProcessMap;
   ProcessMap processMap_;
   void process_Test(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Test2(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Test3(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_Test4(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_UnloadDll(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_EnterGame(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetPlayerInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_GetPlayerPos(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetMonsterList(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_GetSkillReleaseInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_GetLearnedSkillInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_GetSlotSkillInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_GetSkillInfo(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ChangeAngle(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_FindPath(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_PressKey(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_ClickKey(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_ClickSkillKey(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_LeftPressSlot(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
   void process_RightPressSlot(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
+  void process_MoveSkillToSlot(int32_t seqid, ::apache::thrift::protocol::TProtocol* iprot, ::apache::thrift::protocol::TProtocol* oprot, void* callContext);
  public:
   GameFuncCallProcessor(boost::shared_ptr<GameFuncCallIf> iface) :
     iface_(iface) {
     processMap_["Test"] = &GameFuncCallProcessor::process_Test;
+    processMap_["Test2"] = &GameFuncCallProcessor::process_Test2;
+    processMap_["Test3"] = &GameFuncCallProcessor::process_Test3;
+    processMap_["Test4"] = &GameFuncCallProcessor::process_Test4;
+    processMap_["UnloadDll"] = &GameFuncCallProcessor::process_UnloadDll;
     processMap_["EnterGame"] = &GameFuncCallProcessor::process_EnterGame;
     processMap_["GetPlayerInfo"] = &GameFuncCallProcessor::process_GetPlayerInfo;
+    processMap_["GetPlayerPos"] = &GameFuncCallProcessor::process_GetPlayerPos;
     processMap_["GetMonsterList"] = &GameFuncCallProcessor::process_GetMonsterList;
+    processMap_["GetSkillReleaseInfo"] = &GameFuncCallProcessor::process_GetSkillReleaseInfo;
+    processMap_["GetLearnedSkillInfo"] = &GameFuncCallProcessor::process_GetLearnedSkillInfo;
+    processMap_["GetSlotSkillInfo"] = &GameFuncCallProcessor::process_GetSlotSkillInfo;
     processMap_["GetSkillInfo"] = &GameFuncCallProcessor::process_GetSkillInfo;
     processMap_["ChangeAngle"] = &GameFuncCallProcessor::process_ChangeAngle;
     processMap_["FindPath"] = &GameFuncCallProcessor::process_FindPath;
     processMap_["PressKey"] = &GameFuncCallProcessor::process_PressKey;
     processMap_["ClickKey"] = &GameFuncCallProcessor::process_ClickKey;
+    processMap_["ClickSkillKey"] = &GameFuncCallProcessor::process_ClickSkillKey;
     processMap_["LeftPressSlot"] = &GameFuncCallProcessor::process_LeftPressSlot;
     processMap_["RightPressSlot"] = &GameFuncCallProcessor::process_RightPressSlot;
+    processMap_["MoveSkillToSlot"] = &GameFuncCallProcessor::process_MoveSkillToSlot;
   }
 
   virtual ~GameFuncCallProcessor() {}
@@ -1348,6 +2508,42 @@ class GameFuncCallMultiface : virtual public GameFuncCallIf {
     return ifaces_[i]->Test(p1, p2);
   }
 
+  int32_t Test2(const int32_t p1, const int32_t p2) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Test2(p1, p2);
+    }
+    return ifaces_[i]->Test2(p1, p2);
+  }
+
+  int32_t Test3(const double p1, const double p2) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Test3(p1, p2);
+    }
+    return ifaces_[i]->Test3(p1, p2);
+  }
+
+  int32_t Test4(const int32_t p1, const int32_t p2, const int32_t p3, const int32_t p4) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->Test4(p1, p2, p3, p4);
+    }
+    return ifaces_[i]->Test4(p1, p2, p3, p4);
+  }
+
+  int32_t UnloadDll() {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->UnloadDll();
+    }
+    return ifaces_[i]->UnloadDll();
+  }
+
   void EnterGame(const int32_t Index) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -1367,6 +2563,16 @@ class GameFuncCallMultiface : virtual public GameFuncCallIf {
     return;
   }
 
+  void GetPlayerPos(PosInfo& _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->GetPlayerPos(_return);
+    }
+    ifaces_[i]->GetPlayerPos(_return);
+    return;
+  }
+
   void GetMonsterList(std::vector<MonsterInfo> & _return) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -1374,6 +2580,36 @@ class GameFuncCallMultiface : virtual public GameFuncCallIf {
       ifaces_[i]->GetMonsterList(_return);
     }
     ifaces_[i]->GetMonsterList(_return);
+    return;
+  }
+
+  void GetSkillReleaseInfo(std::vector<int32_t> & _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->GetSkillReleaseInfo(_return);
+    }
+    ifaces_[i]->GetSkillReleaseInfo(_return);
+    return;
+  }
+
+  void GetLearnedSkillInfo(std::vector<SkillInfo> & _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->GetLearnedSkillInfo(_return);
+    }
+    ifaces_[i]->GetLearnedSkillInfo(_return);
+    return;
+  }
+
+  void GetSlotSkillInfo(std::vector<SlotSkillInfo> & _return) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->GetSlotSkillInfo(_return);
+    }
+    ifaces_[i]->GetSlotSkillInfo(_return);
     return;
   }
 
@@ -1422,6 +2658,15 @@ class GameFuncCallMultiface : virtual public GameFuncCallIf {
     return ifaces_[i]->ClickKey(key, ctrl);
   }
 
+  int32_t ClickSkillKey(const int32_t key) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->ClickSkillKey(key);
+    }
+    return ifaces_[i]->ClickSkillKey(key);
+  }
+
   int32_t LeftPressSlot(const int32_t SlotAddr) {
     size_t sz = ifaces_.size();
     size_t i = 0;
@@ -1438,6 +2683,15 @@ class GameFuncCallMultiface : virtual public GameFuncCallIf {
       ifaces_[i]->RightPressSlot(SlotAddr);
     }
     return ifaces_[i]->RightPressSlot(SlotAddr);
+  }
+
+  int32_t MoveSkillToSlot(const int32_t SkillID, const int32_t SlotAddr) {
+    size_t sz = ifaces_.size();
+    size_t i = 0;
+    for (; i < (sz - 1); ++i) {
+      ifaces_[i]->MoveSkillToSlot(SkillID, SlotAddr);
+    }
+    return ifaces_[i]->MoveSkillToSlot(SkillID, SlotAddr);
   }
 
 };
