@@ -2,123 +2,124 @@
 #pragma once
 
 //技能
-#define GAME_BASE                          0x002091C50   // 游戏基址
+#define GAME_BASE                          0x00209BE50   // 游戏基址
 #define LEARNED_SKILL_ARRARY_OS1           0x0098        // 已学技能列表偏移1
-#define GET_LEARNED_SKILL_CALL1            0x007180D0    // 取已学技能地址call1
+#define GET_LEARNED_SKILL_CALL1            0x006F6330    // 取已学技能地址call1
 #define LEARNED_SKILL_ARRARY_OS2           0x00A4        // 已学技能列表偏移2
-#define GET_LEARNED_SKILL_CALL2            0x00D34EF0    // 取已学技能地址call2
-#define LEARNED_SKILL_ID_LIST_OS           0x002B0       // 已学技能ID列表偏移
+#define GET_LEARNED_SKILL_CALL2            0x00D28290    // 取已学技能地址call2
+#define LEARNED_SKILL_ID_LIST_OS           0x002B4       // 已学技能ID列表偏移
 #define MAN_PLAYER_ADDR_OS                 0x0080        // ManPlayer地址偏移
-#define GET_LEARNED_SKILL_CALL3            0x00718080    // 取已学技能地址call3
+#define GET_LEARNED_SKILL_CALL3            0x006F62E0    // 取已学技能地址call3
 #define ROLE_STATE_LIST_OS                 0x002F4       // 角色状态列表偏移
 #define BUFF_SKILL_LIST_OS                 0x00140       // 辅助技能列表偏移
-#define GET_BUFF_SKILL_ADDR_CALL           0x00777A70    // 取辅助技能地址call
+#define GET_BUFF_SKILL_ADDR_CALL           0x007660F0    // 取辅助技能地址call
 //寻路
-#define CUR_MAP_ID_BASE                    0x002118160   // 当前地图ID基址
-#define FIND_PATH_CALL                     0x00119A5A0   // 地图寻路call
-#define MAP_INFO_BASE_CALL                 0x00F0AA10    // 地图详细基址call
-#define GET_MAP_INFO_ADDR_CALL             0x00F0A8A0    // 取地图详细地址call
+#define CUR_MAP_ID_BASE                    0x002126528   // 当前地图ID基址
+#define FIND_PATH_CALL                     0x00119FAE0   // 地图寻路call
+#define MAP_INFO_BASE_CALL                 0x00FA0100    // 地图详细基址call
+#define GET_MAP_INFO_ADDR_CALL             0x00F9FF90    // 取地图详细地址call
 #define MAP_INFO_NAME_OS                   0x004         // 地图名字偏移
-#define MAP_AREA_BASE                      0x002128FA4   // Area基址
-#define GET_MAP_AREA_NAME_CALL             0x0012419A0   // 取当前城镇名字call
-#define FIND_PATH_CALL2                    0x001197F60   // 地图寻路call2
+#define MAP_AREA_BASE                      0x002133478   // Area基址
+#define GET_MAP_AREA_NAME_CALL             0x0012F6C50   // 取当前城镇名字call
+#define FIND_PATH_CALL2                    0x00119D300   // 地图寻路call2
 //快捷键
-#define GET_KEY_FUNCTION_ADDR_CALL         0x0011B3D00   // 取快捷键函数地址call
-#define KEY_FUNCTION_CALL                  0x00E1A6F0    // 快捷键call
-#define MOVE_SKILL_TO_KEY_CALL             0x0011D6370   // 移动技能到快捷拦call
-#define QSSLOT_MANAGER_BASE                0x002128AE8   // QSSlotManager基址
+#define GET_KEY_FUNCTION_ADDR_CALL         0x0011B8DF0   // 取快捷键函数地址call
+#define KEY_FUNCTION_CALL                  0x00EB0460    // 快捷键call
+#define MOVE_SKILL_TO_KEY_CALL             0x0011DB430   // 移动技能到快捷拦call
+#define QSSLOT_MANAGER_BASE                0x002132D28   // QSSlotManager基址
 #define KEY_ARRARY_OS                      0x002C        // 快捷栏列表偏移
 #define KEY_SKILL_ID_OS                    0x003C        // 快捷栏技能ID偏移
-#define QSUI_SKILL_PANEL_BASE              0x00210C5A4   // QSUISkillPanel基址
-#define GAME_MSG_BASE                      0x0020909BC   // 消息基址
-#define PRESS_KEY_DOWN_CALL                0x00C0C9B0    // 按键按下call
-#define PRESS_KEY_UP_CALL                  0x00C0C9F0    // 按键弹起call
-#define SUPER_KEY_CALL                     0x00F13650    // 超级按键call
-#define SUPER_KEY_BASE                     0x002111368   // 超级按键基址
+#define QSUI_SKILL_PANEL_BASE              0x0021203D4   // QSUISkillPanel基址
+#define GAME_MSG_BASE                      0x00209ABBC   // 消息基址
+#define PRESS_KEY_DOWN_CALL                0x00C0E570    // 按键按下call
+#define PRESS_KEY_UP_CALL                  0x00C0E5B0    // 按键弹起call
+#define SUPER_KEY_CALL                     0x00FA8C50    // 超级按键call
+#define SUPER_KEY_BASE                     0x0021251C0   // 超级按键基址
 //对像
-#define OBJECT_BE_FRIEND_CALL              0x0011FDF00   // 对像是否友好call
-#define OBJ_PROPERTY_CALL                  0x0010A4790   // 取对像属性值地址call
+#define OBJECT_BE_FRIEND_CALL              0x001203070   // 对像是否友好call
+#define OBJ_PROPERTY_CALL                  0x0010A8A40   // 取对像属性值地址call
 #define OBJ_PROPERTY_KEY_VALUE             0x00A59CF5B6  // 对像属性值解密值
 #define OBJ_BLOOD_VALUE_OS                 0x00E8        // 对像血值偏移
 #define OBJ_INTERNAL_VALUE_OS              0x00F8        // 对像内息偏移
 #define OBJ_FORCE_VALUE_OS                 0x0010C       // 对像定力偏移
 #define OBJ_JOB_VALUE_OS                   0x00CC        // 对像职业偏移
-#define OBJ_MAX_FINESSE_CALL               0x0012622A0   // 取最大机巧call
-#define OBJ_CUR_FINESSE_CALL               0x001262270   // 取当前机巧call
-#define CHANGE_ROLE_ANGLE_CALL             0x00E43C30    // 改变角色面向角call
+#define OBJ_MAX_FINESSE_CALL               0x0012489B0   // 取最大机巧call
+#define OBJ_CUR_FINESSE_CALL               0x001248980   // 取当前机巧call
+#define CHANGE_ROLE_ANGLE_CALL             0x00ED9BE0    // 改变角色面向角call
 #define OBJ_LEVEL_OS                       0x00D0        // 对像等级偏移
-#define GET_OBJ_TYPE_CALL                  0x00279DC63   // 取对像类型call
-#define PICK_ALL_ITEM_CALL                 0x00F45250    // 全捡物品call
+#define GET_OBJ_TYPE_CALL                  0x0027DD2E7   // 取对像类型call
+#define PICK_ALL_ITEM_CALL                 0x00FDC320    // 全捡物品call
 #define OBJ_KILLING_VALUE_OS               0x00F0        // 对像杀意偏移
-#define OBJECT_CAN_ATTACK_CALL             0x00108FB80   // 判断对像是否可以攻击
+#define OBJECT_CAN_ATTACK_CALL             0x001094050   // 判断对像是否可以攻击
 #define SELECT_OBJECT_ID_OS                0x00698       // 被选怪ID偏移
 //状态
 #define FIGHTING_STATE_OS                  0x005AC       // 战斗状态偏移
 #define MOVE_STATE_ADDR_OS                 0x004F0       // 移动状态地址偏移
 //会话
 #define QUEST_RESPONSE_ITEM_LIST_OS        0x0012C       // 任务会话选项列表偏移
-#define GET_SERVER_NPC_ID_CALL             0x00108CFD0   // 取NPC的服务器IDcall
-#define GET_RESPONSE_ITEM_LIST_CALL        0x0075DC80    // 任务会话选项列表地址call
-#define NOMAL_RESPONSE_ITEM_LIST_OS        0x00768       // 普通会话选项列表偏移
-#define PRESS_RESPONSE_ITEM_CALL           0x00F4C780    // 会话选项call
-#define SEND_PACKET_CALL                   0x0026AE39C   // 明文发包call
-#define SEND_PACKET_BASE                   0x002118148   // 发包基址
-#define JOYIN_MEMHUI_CALL                  0x0027B32FF   // 加入盟会call
+#define GET_SERVER_NPC_ID_CALL             0x0010914A0   // 取NPC的服务器IDcall
+#define GET_RESPONSE_ITEM_LIST_CALL        0x00740360    // 任务会话选项列表地址call
+#define NOMAL_RESPONSE_ITEM_LIST_OS        0x00770       // 普通会话选项列表偏移
+#define PRESS_RESPONSE_ITEM_CALL           0x00FE3810    // 会话选项call
+#define SEND_PACKET_CALL                   0x00C9C689    // 明文发包call
+#define SEND_PACKET_BASE                   0x002126510   // 发包基址
+#define JOYIN_MEMHUI_CALL                  0x00106DC9E   // 加入盟会call
 //UI
-#define UI_BASE                            0x002092D88   // UI基址
-#define GET_UI_ADDR_CALL                   0x00C922D0    // 遍历UI的call
-#define NPC_DLG_FLAG_BASE_CALL             0x0021183D8   // 对话框识别基址
+#define UI_BASE                            0x00209CF88   // UI基址
+#define GET_UI_ADDR_CALL                   0x00C93820    // 遍历UI的call
+#define NPC_DLG_FLAG_BASE_CALL             0x0021267A0   // 对话框识别基址
 #define RESPONSE_DLG_NPC_ID_OS             0x00B8        // 打开对话框的NPC的ID偏移
 #define GAME_UI_VISIBLE_OS                 0x0081        // 窗口UI是否显示偏移
 //任务
-#define ACCEPTED_QUEST_LIST_OS             0x005A8       // 已接任务列表偏移
-#define GET_QUEST_ADDR_CALL                0x00DF87C0    // 取任务地址call
-#define QUEST_TRACK_TEXT_BASE              0x00209113C   // 任务追踪字串基址
-#define TREASURE_POS_HOOK_ADDR             0x001142110   // 挖宝位置HOOK地址
+#define ACCEPTED_QUEST_LIST_OS             0x005B0       // 已接任务列表偏移
+#define GET_QUEST_ADDR_CALL                0x00E922F0    // 取任务地址call
+#define QUEST_TRACK_TEXT_BASE              0x00209B33C   // 任务追踪字串基址
+#define TREASURE_POS_HOOK_ADDR             0x001146B10   // 挖宝位置HOOK地址
 #define JIANWEN_INFO_LIST_OS               0x00250       // 见闻详细列表偏移
-#define GET_JIANWEN_INFO_CALL2             0x00E00B30    // 取见闻详细地址call2
+#define GET_JIANWEN_INFO_CALL2             0x00D95C40    // 取见闻详细地址call2
 #define JIANGHU_QUEST_LIST_OS              0x00FC        // 江湖任务列表偏移
 #define HUABEN_QUEST_PROGRESS_BASE         0x000         // 江湖话本进度基址
 #define GET_HUABEN_PROGRESS_CALL           0x000         // 取江湖话本进度地址call
-#define IS_JIANWEN_COMPLETED_CALL          0x001188A80   // 判断见闻任务是否完成call
-#define PLOT_EVENT_ADDR_OS                 0x003FC       // PlotEvent地址偏移
-#define PLOT_EVENT_CAN_ACCECPT_CALL        0x001185520   // PlotEvent是否可接call
-#define PLOT_EVENT_COMPLETED_CALL          0x001185540   // PlotEvent是否完成call
+#define IS_JIANWEN_COMPLETED_CALL          0x00118DE00   // 判断见闻任务是否完成call
+#define PLOT_EVENT_ADDR_OS                 0x00400       // PlotEvent地址偏移
+#define PLOT_EVENT_CAN_ACCECPT_CALL        0x00118A920   // PlotEvent是否可接call
+#define PLOT_EVENT_COMPLETED_CALL          0x00118A940   // PlotEvent是否完成call
 #define PLOT_EVENT_CAN_ACCEPT_OS           0x00108       // PlotEvent默认可接任务偏移
-#define JIANWEN_BASE                       0x00210DC40   // 见闻基址
-#define GET_SHILIAN_BASE                   0x00122BEF0   // 取试练列表基址call
+#define JIANWEN_BASE                       0x002121868   // 见闻基址
+#define GET_SHILIAN_BASE                   0x0012D67C0   // 取试练列表基址call
 //物品
-#define ITEM_IS_GOODS_TYPE_CALL            0x00D8A456    // 判断是否是Goods类型call
-#define ITEM_IS_EQUIP_TYPE_CALL            0x00D93230    // 判断是否是Equip类型call
+#define ITEM_IS_GOODS_TYPE_CALL            0x00DFCA4B    // 判断是否是Goods类型call
+#define ITEM_IS_EQUIP_TYPE_CALL            0x00DFBFC0    // 判断是否是Equip类型call
 #define CAN_EQUIP_ITEM_CALL                0x000         // 判断是否能装上call
 #define ITEM_LIST_OS                       0x0078        // 物品链表偏移
 #define ITEM_BIND_STATE_OS                 0x0030        // 物品绑定状态偏移
 #define EQUIP_MAX_USEAGE_OS                0x00EC        // 装备最大耐久度偏移
 #define EQUIP_CUR_USEAGE_CALL_OS           0x00124       // 取装备当前耐久度call
 #define BAG_MAX_GRID_OS                    0x00B4        // 背包最大格子数偏移
-#define BUY_GOODS_CALL                     0x0027948CE   // 购买call
-#define SELL_GOODS_CALL                    0x0011A6BF0   // 出售物品call
+#define BUY_GOODS_CALL                     0x00D8DCB5    // 购买call
+#define SELL_GOODS_CALL                    0x0011AC1E0   // 出售物品call
 //传送点
-#define GET_TRANSFER_INFO_CALL             0x001188A30   // 取传送点详细地址call
-#define GET_TRANSFER_FREEZE_TIME_CALL      0x001185B00   // 传送间隔剩余时间call
+#define GET_TRANSFER_INFO_CALL             0x00118DDB0   // 取传送点详细地址call
+#define GET_TRANSFER_FREEZE_TIME_CALL      0x00118AF00   // 传送间隔剩余时间call
 #define PRESS_TRANSFER_POINT_CALL          0x000         // 传送点传送call
 #define TRANSFER_LIST_OS                   0x00244       // 传送点列表偏移
 #define TRANSFER_LIST_MEMBER_SIZE          0x0074        // 传送点数组成员大小
 //登入
-#define CREAT_CHARACTER_CALL               0x001175AA0   // 创建角色call
-#define ENTER_GAME_CALL                    0x0027AD7A9   // 登入游戏call
-#define CHARACTER_LIST_BASE                0x0021219A0   // 角色列表基址
+#define CREAT_CHARACTER_CALL               0x00117AF30   // 创建角色call
+#define ENTER_GAME_CALL                    0x0027F0D74   // 登入游戏call
+#define CHARACTER_LIST_BASE                0x00212BBE0   // 角色列表基址
 #define CHARACTER_LIST_MEMBER_SIZE         0x005FE       // 角色列表成员大小
 //邮件
-#define MAIL_BASE                          0x000         // 邮件基址
-#define SEIZE_BASE                         0x000         // 缉拿基址
+#define MAIL_BASE                          0x00209EF98   // 邮件基址
+#define SEIZE_BASE                         0x002133294   // 缉拿基址
 //组队
-#define ACCEPT_TEAM_BASE                   0x000         // 组队接受列表基址
-#define TEAM_MEMBER_BASE                   0x000         // 队伍基址
-#define TEAM_MEMBER_LIST_OS                0x000         // 队伍成员列表偏移
+#define ACCEPT_TEAM_BASE                   0x002126848   // 组队接受列表基址
+#define TEAM_MEMBER_BASE                   0x00209F7F8   // 队伍基址
+#define TEAM_MEMBER_LIST_OS                0x005EE0      // 队伍成员列表偏移
 #define TEAM_LEADER_ID_OS                  0x005EB0      // 队长ID偏移
-#define TEAM_MEMBER_ONLINE_OS              0x000         // 玩家是否在线偏移
-#define CUR_THREAD_ID_OS                   0x000         // 当前线路偏移
+#define TEAM_MEMBER_ONLINE_OS              0x00B25       // 玩家是否在线偏移
+#define CUR_THREAD_ID_OS                   0x00B98       // 当前线路偏移
+
 
 
 
