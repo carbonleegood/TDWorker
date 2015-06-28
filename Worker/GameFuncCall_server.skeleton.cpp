@@ -90,7 +90,8 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   void GetPlayerPos(PosInfo& _return)
   {
 	  // Your implementation goes here
-	  printf("GetPlayerPos\n");
+	//  printf("GetPlayerPos\n");
+	  FGetPlayerPos(_return);
   }
   void GetMonsterList(std::vector<MonsterInfo> & _return) 
   {
@@ -117,7 +118,8 @@ class GameFuncCallHandler : virtual public GameFuncCallIf
   {
 	  // Your implementation goes here
 	 // printf("GetSlotSkillInfo\n");
-	  FGetSlotSkill(_return);
+	//  FGetSlotSkill(_return);
+	  FListKeySkill();
   }
 
   void GetSkillInfo() 

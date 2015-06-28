@@ -285,8 +285,8 @@ void FGetSkillInfo()
 				}
 				BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
 				CString strTmp;
-				strTmp.Format(_T("¿ì½Ý¼ü:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,Ãû×Ö:%s\r\n"),
-					i, CurKeyAddr, skillAddr1, skillID, canRelease, skillName.c_str());
+				strTmp.Format(_T("¿ì½Ý¼ü:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,ÈÝÆ÷ÀàÐÍ:%d,Ãû×Ö:%s\r\n"),
+					i, CurKeyAddr, skillAddr1, skillID, canRelease, nItemType, skillName.c_str());
 				::OutputDebugString(strTmp);
 			}
 		} while (0);
@@ -334,17 +334,134 @@ int FGetSkillReleaseInfo(std::vector<int>& SkillList) //»ñÈ¡¼¼ÄÜµÄ¿ÉÊÍ·ÅÐÅÏ¢,25¸
 				}
 				BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
 				CString strTmp;
-				strTmp.Format(_T("¿ì½Ý¼ü:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,Ãû×Ö:%s\r\n"),
-					i, CurKeyAddr, skillAddr1, skillID, canRelease, skillName.c_str());
+				strTmp.Format(_T("¿ì½Ý¼ü:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,ÈÝÆ÷ÀàÐÍ%d,Ãû×Ö:%s\r\n"),
+					i, CurKeyAddr, skillAddr1, skillID, canRelease, nItemType, skillName.c_str());
 				::OutputDebugString(strTmp);
 			}
 		} while (0);
 	}
 	return SUCCESS;
 }
+void FListKeySkill()  //¿ì½Ý¼ü
+{
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(_T(""));
+	//CString str, strTmp;
 
+	//strTmp = _T("¿ì½Ý¼ü,0-9ÎªCtrl+1 - 0,10-19Îª1-0,20-29ÎªQ-Z \r\n");
+	//str += strTmp;
+
+	DWORD GameAddr = *(DWORD*)(QSSLOT_MANAGER_BASE);
+	if (IsBadReadPtr((void*)GameAddr, 4))
+		return;
+	DWORD ListHead = *(DWORD*)(GameAddr + KEY_ARRARY_OS);
+	if (IsBadReadPtr((void*)ListHead, 4))
+		return;
+	DWORD ListEnd = *(DWORD*)(GameAddr + KEY_ARRARY_OS + 4);
+	if (IsBadReadPtr((void*)ListEnd, 4))
+		return;
+	if (ListHead >= ListEnd)  //Ã»ÓÐ³ÉÔ±,±éÀú¸öP
+		return;
+	int maxCount = (ListEnd - ListHead) / 0x4;
+	int nBegin = *(int*)(QSUI_SKILL_PANEL_BASE + 8);  //¿ªÊ¼
+	int nSize = *(int*)(QSUI_SKILL_PANEL_BASE + 0xC);  //ÊýÁ¿
+	for (int i = nBegin; i<maxCount; i++)
+	{
+		if ((nBegin + nSize) < i)  //³¬¹ý´Ë¿ì½Ý¼üÊý×é´óÐ¡
+			break;
+		DWORD curList = ListHead + i * 0x4;
+		if (IsBadReadPtr((void*)curList, 4) || curList > ListEnd)
+			break;
+		DWORD CurKeyAddr = *(DWORD*)(curList);
+		if (IsBadReadPtr((void*)CurKeyAddr, 4))
+			continue;
+		DWORD skillID = *(DWORD*)(CurKeyAddr + KEY_SKILL_ID_OS);
+
+		DWORD skillAddr1 = XCall::GetLearnedSkill3(skillID);
+
+		DWORD skillAddr2 = XCall::GetLearnedSkill2(skillID);
+
+		tstring skillName;
+		if (skillAddr2)
+		{
+			char* putf8Name = (char*)*(DWORD*)(skillAddr2 + 4);
+			if (!IsBadReadPtr((void*)putf8Name, 4))
+			{
+				skillName = XCall::UTF2T(putf8Name);
+			}
+		}
+
+		BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
+
+
+		CString strTmp;
+		strTmp.Format(_T("ÐòºÅ:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,Ãû×Ö:%s\r\n"),
+			(i - nBegin), CurKeyAddr, skillAddr2, skillID, canRelease, skillName.c_str());
+		::OutputDebugString(strTmp);
+	//	str += strTmp;
+	}
+
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+}
 int FGetSlotSkill(std::vector<SlotSkillInfo>& SkillList) //Ãæ°å¼¼ÄÜ£¬´ø°´¼ü²ÛµØÖ·,25¸ö,1-0,QERTG,CTRL1-5,F1-5
 {
+	DWORD GameAddr = *(DWORD*)(QSSLOT_MANAGER_BASE);
+	if (IsBadReadPtr((void*)GameAddr, 4))
+		return CALL_FAIL;
+	DWORD ListHead = *(DWORD*)(GameAddr + KEY_ARRARY_OS);
+	if (IsBadReadPtr((void*)ListHead, 4))
+		return CALL_FAIL;
+	DWORD ListEnd = *(DWORD*)(GameAddr + KEY_ARRARY_OS + 4);
+	if (IsBadReadPtr((void*)ListEnd, 4))
+		return CALL_FAIL;
+	if (ListHead >= ListEnd)  //Ã»ÓÐ³ÉÔ±,±éÀú¸öP
+		return CALL_FAIL;
+	int maxCount = (ListEnd - ListHead) / 4;
+	for (int i = 0; i<maxCount; i++)
+	{
+		DWORD curList = ListHead + i * 0x4;
+		if (IsBadReadPtr((void*)curList, 4) || curList > ListEnd)
+			break;
+		DWORD CurKeyAddr = *(DWORD*)(curList);
+		if (IsBadReadPtr((void*)CurKeyAddr, 4))
+			continue;
+		int nSlotType = *(int*)(CurKeyAddr + 8);   //ÈÝÆ÷ÀàÐÍ
+		int nItemType = *(int*)(CurKeyAddr + 0xC);  //Êý¾ÝÀàÐÍ
+		do
+		{
+			if (nSlotType == 5)
+			{   //¿ì½Ý¼üÀ¸
+				DWORD skillID = *(DWORD*)(CurKeyAddr + KEY_SKILL_ID_OS);
+				DWORD skillAddr1 = XCall::GetLearnedSkill3(skillID);
+				DWORD skillAddr2 = XCall::GetLearnedSkill2(skillID);
+				tstring skillName;
+				if (skillAddr2)
+				{
+					char* putf8Name = (char*)*(DWORD*)(skillAddr2 + 4);
+					if (!IsBadReadPtr((void*)putf8Name, 4))
+					{
+						skillName = XCall::UTF2T(putf8Name);
+					}
+				}
+				BOOL canRelease = (BOOL)XCall::CanReleaseSkill(CurKeyAddr);
+
+				SlotSkillInfo temp;
+				temp.SkillID = skillID;
+				temp.SlotAddr = CurKeyAddr;
+				temp.CanRelease = canRelease;
+
+				char* pName = (char*)skillName.c_str();
+				int nLen = skillName.size() * 2;
+				for (int i = 0; i < nLen; ++i)
+					temp.name.push_back(*(pName + i));
+
+				SkillList.push_back(temp);
+				CString strTmp;
+				strTmp.Format(_T("¿ì½Ý¼ü:%d,key:%X,µØÖ·:%X,¶ÔÏñID:%X,ÊÍ·Å:%d,ÈÝÆ÷ÀàÐÍ:%d,Ãû×Ö:%s\r\n"),
+					i, CurKeyAddr, skillAddr1, skillID, canRelease, nItemType, skillName.c_str());
+				::OutputDebugString(strTmp);
+			}
+		} while (0);
+	}
 	return SUCCESS;
 }
 int FGetLearnedSkill(std::vector<SkillInfo>& SkillList)  //ÒÑÑ§¼¼ÄÜ
@@ -387,6 +504,8 @@ int FGetLearnedSkill(std::vector<SkillInfo>& SkillList)  //ÒÑÑ§¼¼ÄÜ
 				skillName = XCall::UTF2T(putf8Name);
 			}
 		}
+		if (skillName.size() < 1)
+			continue;
 
 		BOOL canRelease = 0;// (BOOL)XCall::CanReleaseSkill(skillID);
 		SkillInfo temp;
