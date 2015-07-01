@@ -449,6 +449,262 @@ void FListBuffSkill() //辅助技能列表
 	}
 //	((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
 }
+//任务
+void FListAcceptedQuest()  //已接任务
+{
+//	((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(_T(""));
+	CString str;
+	DWORD GameBase = *(DWORD*)GAME_BASE;
+	if (IsBadReadPtr((void*)(GameBase), 4))
+		return;
+	DWORD ListHead = *(DWORD*)(GameBase + ACCEPTED_QUEST_LIST_OS);
+	if (IsBadReadPtr((void*)(ListHead), 4))
+		return;
+	DWORD CurList = *(DWORD*)(ListHead + ACCEPTED_QUEST_ID_LIST_OS);
+	if (IsBadReadPtr((void*)(CurList), 4))
+		return;
+	DWORD ListEnd = *(DWORD*)(ListHead + ACCEPTED_QUEST_ID_LIST_OS + 4);
+	if (IsBadReadPtr((void*)(ListEnd), 4))
+		return;
+	CString strTmp;
+	while (CurList < ListEnd)
+	{
+		if (IsBadReadPtr((void*)(CurList), 4))
+			break;
+		DWORD QuestID = *(DWORD*)CurList;
+		DWORD curQuestAddr = XCall::GetQuestAddr(QuestID);
+		if (curQuestAddr)
+		{
+			tstring strQuestName;
+			char* questName = (char*)XCall::GetQuestName(QuestID);
+			if (questName)
+				strQuestName = XCall::UTF2T(questName);
+
+			strTmp.Format(_T("地址:%X,任务ID:%X,任务名:%s \r\n"),
+				curQuestAddr, QuestID, strQuestName.c_str());
+			::OutputDebugString(strTmp);
+			//str += strTmp;
+
+			DWORD CurStepList = *(DWORD*)(curQuestAddr + QUEST_STEP_LIST_OS);
+			DWORD StepListEnd = *(DWORD*)(curQuestAddr + QUEST_STEP_LIST_OS + 4);
+			if (!IsBadReadPtr((void*)CurStepList, 4) && !IsBadReadPtr((void*)StepListEnd, 4)
+				&& CurStepList < StepListEnd)
+			{
+				while (CurStepList < StepListEnd)
+				{
+					if (IsBadReadPtr((void*)(CurStepList), 4))
+						break;
+					DWORD curQuestStep = *(DWORD*)(CurStepList);
+					if (!IsBadReadPtr((void*)(curQuestStep), 4))
+					{
+						int nType = *(DWORD*)(curQuestStep + QUEST_STEP_TYPE_OS);
+						DWORD storyID = *(DWORD*)(curQuestStep + QUEST_STEP_TYPE_OS + 4);
+						int curNum = *(DWORD*)(curQuestStep + 0);
+						int maxNum = *(DWORD*)(curQuestStep + 4);
+						if (nType != 0x10/* && nType != 0x14 */)
+						{
+							tstring strStepName;
+							char* stepName = (char*)*(DWORD*)(curQuestStep + QUEST_STEP_NAME_OS);
+							if (!IsBadReadPtr((void*)stepName, 4))
+								strStepName = XCall::UTF2T(stepName);
+
+							strTmp.Format(_T("	地址:%X,类型:%X,状态:%d/%d,名:%s \r\n"),
+								curQuestAddr, nType, curNum, maxNum, strStepName.c_str());
+							::OutputDebugString(strTmp);
+							//str += strTmp;
+
+							if (nType == 0x14) //此为剧情任务
+							{
+								//ShowAcceptedQuest(storyID,str);
+
+								tstring strStoryQuest;
+								char* storyQuest = (char*)*(DWORD*)(QUEST_TRACK_TEXT_BASE);
+								if (!IsBadReadPtr((void*)storyQuest, 4))
+									strStoryQuest = XCall::UTF2T(storyQuest);
+
+								strTmp.Format(_T("		剧情字串:%s \r\n"), strStoryQuest.c_str());
+								::OutputDebugString(strTmp);
+								//str += strTmp;
+							}
+						}//else ShowAcceptedQuest(storyID,str);
+					}
+					CurStepList += 4;
+				}
+			}
+			else
+			{
+			//	str += _T("	状态:已完成或未接任务\r\n");
+				::OutputDebugString(_T("	状态:已完成或未接任务\r\n"));
+			//	::OutputDebugString(strTmp);
+			}
+		}
+		CurList += 4;
+	}
+
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+}
+void FVisitNomalResponse(DWORD CurList, CString &str);
+void FListNomalResponse()  //当前普通会话
+{
+
+	CString str, strTmp;;
+//	((CEdit *)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
+	str += _T("\r\n普通会话,类型4 \r\n");
+	::OutputDebugString(str);
+	DWORD GameAddr = *(DWORD*)GAME_BASE;
+	if (IsBadReadPtr((void*)(GameAddr), 4))
+		return;
+	GameAddr = *(DWORD*)(GameAddr + NOMAL_RESPONSE_ITEM_LIST_OS);
+	if (IsBadReadPtr((void*)(GameAddr), 4))
+		return;
+
+	DWORD CurList = *(DWORD*)(GameAddr + NOMAL_RESPONSE_LIST_OS);
+	if (IsBadReadPtr((void*)(CurList), 4))
+		return;
+
+	int nCount = *(int*)(GameAddr + NOMAL_RESPONSE_LIST_OS + 4);
+	if (nCount > 0 && nCount < 50)
+	for (int i = 0; i < nCount; i++)
+	{
+		DWORD curAddr = CurList + i * 4;
+		if (IsBadReadPtr((void*)curAddr, 4))
+			break;
+		DWORD NodeAddr = *(DWORD*)curAddr;
+		if (IsBadReadPtr((void*)NodeAddr, 4))
+			continue;
+		do
+		{
+			DWORD DataAddr = *(DWORD*)(NodeAddr + 0x4);
+			if (IsBadReadPtr((void*)DataAddr, 4))
+				break;
+			DWORD responseID = *(DWORD*)(DataAddr + 8);  //会话id
+			DWORD NpcID1 = *(DWORD*)(DataAddr + 0x10);
+			DWORD NpcID2 = *(DWORD*)(DataAddr + 0x14);
+
+			BOOL bState = XCall::GetResponseItemState(DataAddr);
+
+
+			char* responseText = (char*)*(DWORD*)(DataAddr + 0x1C);
+			tstring strResponse;
+			if (!IsBadReadPtr((void*)responseText, 4))
+				strResponse = XCall::UTF2T(responseText);
+
+			strTmp.Format(_T("地址:%X,会话ID:%X,状态:%d,npcID1:%X/%X,字串:%s\r\n"),
+				DataAddr, responseID, bState, NpcID1, NpcID2, strResponse.c_str());
+			::OutputDebugString(strTmp);
+			//str += strTmp;
+
+		} while (0);
+		DWORD b8 = *(DWORD*)(CurList + 8);
+		if (!IsBadReadPtr((void*)b8, 4))
+			FVisitNomalResponse(b8, str);
+	}
+
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+}
+void FVisitNomalResponse(DWORD CurList, CString &str)
+{
+	if (IsBadReadPtr((void*)(CurList), 4))
+		return;
+	if (IsBadReadPtr((void*)CurList, 4))
+		return;
+	CString strTmp;
+
+	do
+	{
+		DWORD DataAddr = *(DWORD*)(CurList + 0x4);
+		if (IsBadReadPtr((void*)DataAddr, 4))
+			break;
+		DWORD responseID = *(DWORD*)(DataAddr + 8);  //会话id
+		DWORD NpcID1 = *(DWORD*)(DataAddr + 0x10);
+		DWORD NpcID2 = *(DWORD*)(DataAddr + 0x14);
+
+		BOOL bState = XCall::GetResponseItemState(DataAddr);
+
+
+		char* responseText = (char*)*(DWORD*)(DataAddr + 0x1C);
+		tstring strResponse;
+		if (!IsBadReadPtr((void*)responseText, 4))
+			strResponse = XCall::UTF2T(responseText);
+
+		strTmp.Format(_T("地址:%X,会话ID:%X,状态:%d,npcID1:%X/%X,字串:%s\r\n"),
+			DataAddr, responseID, bState, NpcID1, NpcID2, strResponse.c_str());
+		::OutputDebugString(strTmp);
+		//str += strTmp;
+
+	} while (0);
+
+	DWORD b8 = *(DWORD*)(CurList + 8);
+	if (!IsBadReadPtr((void*)b8, 4))
+		FVisitNomalResponse(b8, str);
+}
+
+void FListQuestResponse()  //当前任务会话
+{
+	CString str;
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->GetWindowText(str);
+	str += _T("\r\n任务会话,类型2 \r\n");
+	::OutputDebugString(str);
+	DWORD ListAddr = XCall::GetResponseItemList();
+	//DbgLog(_T("当前对话NPC的会话列表地址:%X"), ListAddr);
+	if (IsBadReadPtr((void*)(ListAddr), 4))
+		return;
+	DWORD CurList = *(DWORD*)(ListAddr + 0);
+	if (IsBadReadPtr((void*)(CurList), 4))
+		return;
+	DWORD ListEnd = *(DWORD*)(ListAddr + 4);
+	if (IsBadReadPtr((void*)(CurList), 4))
+		return;
+	CString strTmp;
+	while (CurList < ListEnd)
+	{
+		if (IsBadReadPtr((void*)CurList, 4))
+			break;
+		DWORD questID = *(DWORD*)(CurList + 0);
+
+		DWORD CurStepList = *(DWORD*)(CurList + QUEST_RESPONSE_STEP_LIST_OS);
+		DWORD StepListEnd = *(DWORD*)(CurList + QUEST_RESPONSE_STEP_LIST_OS + 4);
+		if (!IsBadReadPtr((void*)CurStepList, 4) && !IsBadReadPtr((void*)StepListEnd, 4)
+			&& CurStepList < StepListEnd)
+		{
+			while (CurStepList < StepListEnd)
+			{
+				if (IsBadReadPtr((void*)CurStepList, 4))
+					break;
+				DWORD ResponseID1 = *(DWORD*)(CurStepList + 0);
+				DWORD ResponseID2 = *(DWORD*)(CurStepList + 4);
+
+				DWORD CurItemList = *(DWORD*)(CurStepList + QUEST_RESPONSE_STEP_ITEM_OS);
+				DWORD ItemListEnd = *(DWORD*)(CurStepList + QUEST_RESPONSE_STEP_ITEM_OS + 4);
+				if (!IsBadReadPtr((void*)CurItemList, 4) && !IsBadReadPtr((void*)ItemListEnd, 4)
+					&& CurItemList < ItemListEnd)
+				{
+					int nStep = 0;
+					while (CurItemList < ItemListEnd)
+					{
+						if (IsBadReadPtr((void*)CurItemList, 4))
+							break;
+						tstring strItem;
+						char* ItemName = (char*)*(DWORD*)CurItemList;
+						if (!IsBadReadPtr((void*)ItemName, 4))
+							strItem = XCall::UTF2T(ItemName);
+
+						strTmp.Format(_T("下标:%d,地址:%X,会话ID:%X/%X,任务ID:%X,字串:%s\r\n"),
+							nStep, CurList, ResponseID1, ResponseID2, questID, strItem.c_str());
+						::OutputDebugString(strTmp);
+						//str += strTmp;
+
+						nStep++;
+						CurItemList += QUEST_RESPONSE_STEP_ITEM_LIST_SIZE;
+					}
+				}
+				CurStepList += QUEST_RESPONSE_STEP_LIST_SIZE;
+			}
+		}
+		CurList += QUEST_RESPONSE_LIST_SIZE;
+	}
+	//((CEdit *)GetDlgItem(IDC_EDIT1))->SetWindowText(str);
+}
 #pragma endregion comment
 
 #pragma region 控制
