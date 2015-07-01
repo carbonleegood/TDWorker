@@ -27,8 +27,12 @@ int FGetSlotSkill(std::vector<SlotSkillInfo>& SkillList); //面板技能，带按键槽地
 
 void FGetSkillInfo();
 void FListBuffSkill();
-//void FGetKeySkill();
-void FListKeySkill();
+void FGetKeySkill();
+
+
+void FListAcceptedQuest();  //已接任务
+void FListNomalResponse();  //当前普通会话
+void FListQuestResponse();
 /////////////////////////////////////////////////////////////////////////////////////
 //功能部分
 /////////////////////////////////////////////////////////////////////////////////////
